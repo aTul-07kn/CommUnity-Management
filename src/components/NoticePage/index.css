@@ -1,0 +1,52 @@
+/* NoticeBoard.css */
+
+.notice-board {
+  padding-top: 30px;
+  width: 95%;
+}
+
+.add-notice-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2f4858;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  width: 175px;
+  height: 105px;
+  font-family: Poppins;
+}
+
+.add-notice-btn span {
+  margin-right: 8px;
+  font-size: 20px;
+  margin-bottom: -3px;
+}
+
+.notice-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* .notice-actions button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #2f4858;
+  font-size: 20px;
+  padding: 5px;
+  transition: color 0.3s;
+} */
+
+.notice-actions button:hover {
+  color: #ff6b6b;
+}
+.big {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
