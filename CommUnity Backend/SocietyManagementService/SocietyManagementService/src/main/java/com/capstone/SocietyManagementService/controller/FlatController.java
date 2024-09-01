@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/community/flats")
+@RequestMapping("/api/community/management-service/flats")
 public class FlatController {
     @Autowired
     private FlatService flatService;

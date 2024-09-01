@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/community/security-details")
+@RequestMapping("/api/community/management-service/security-details")
 public class SecurityDetailsController {
 
     @Autowired

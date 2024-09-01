@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/community/post")
+@RequestMapping("/api/community/event-service/post")
 public class PostController {
 
     @Autowired
@@ -37,6 +37,7 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
+    //Get the posts by societyId
     @GetMapping("/by-society/{societyId}")
     public ResponseEntity<List<PostDto>> getPostsBySociety(@PathVariable long societyId) {
         List<PostDto> posts = postService.getPostsBySociety(societyId);
