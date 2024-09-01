@@ -19,17 +19,19 @@ function TopNavbar({ heading, full }) {
           <p className="n-text">Swathi</p>
         </button>
       </Link>
-      <IoPeople
-        style={{
-          height: "25px",
-          width: "25px",
-          marginLeft: "30px",
-          cursor: "pointer",
-          color: "#1a4258",
-        }}
-      />
-
+      <Link to="/apartment">
+        <IoPeople
+          style={{
+            height: "25px",
+            width: "25px",
+            marginLeft: "30px",
+            cursor: "pointer",
+            color: "#1a4258",
+          }}
+        />
+      </Link>
       <IoNotifications className="t-icon" />
+
       {full && (
         <Link to="/posts">
           <HiOutlineLogout className="t-icon" />

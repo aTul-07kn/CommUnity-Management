@@ -79,54 +79,50 @@ class Apartment extends Component {
       (member) => member.block === selectedBlock
     );
     return (
-      <div className="apartment-container">
-        <SideNavbar />
-        <div className="apartment-right-sec">
-          <TopNavbar heading="Apartment Members" full={true} />
-          <div className="apartment-right-main-sec">
-            <div className="top-bar">
-              <button
-                className={`block-button ${
-                  selectedBlock === "Block A" ? "active" : ""
-                }`}
-                onClick={() => this.handleBlockChange("Block A")}
-              >
-                Block A
-              </button>
-              <button
-                className={`block-button ${
-                  selectedBlock === "Block B" ? "active" : ""
-                }`}
-                onClick={() => this.handleBlockChange("Block B")}
-              >
-                Block B
-              </button>
+      <div className="user-container">
+        <TopNavbar heading="Apartment Members" full={true} />
+        <div className="user-main-sec left-space">
+          <div className="top-bar">
+            <button
+              className={`block-button ${
+                selectedBlock === "Block A" ? "active" : ""
+              }`}
+              onClick={() => this.handleBlockChange("Block A")}
+            >
+              Block A
+            </button>
+            <button
+              className={`block-button ${
+                selectedBlock === "Block B" ? "active" : ""
+              }`}
+              onClick={() => this.handleBlockChange("Block B")}
+            >
+              Block B
+            </button>
+          </div>
+          <div className="m-search-sec">
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="Search by name..."
+                className="ap-search-input"
+              />
+              <IoSearch className="ap-search-icon" />
             </div>
-            <div className="m-search-sec">
-              <div className="search-container">
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="ap-search-input"
-                />
-                <IoSearch className="ap-search-icon" />
-              </div>
-              <button className="login-submit-button">+ Add New</button>
-            </div>
+          </div>
 
-            <div className="members-grid">
-              {filteredMembers.map((member, index) => (
-                <PersonCard
-                  key={index}
-                  name={member.name}
-                  block={member.block}
-                  room={member.room}
-                  phone={member.phone}
-                  email={member.email}
-                  image={member.image}
-                />
-              ))}
-            </div>
+          <div className="members-grid">
+            {filteredMembers.map((member, index) => (
+              <PersonCard
+                key={index}
+                name={member.name}
+                block={member.block}
+                room={member.room}
+                phone={member.phone}
+                email={member.email}
+                image={member.image}
+              />
+            ))}
           </div>
         </div>
       </div>

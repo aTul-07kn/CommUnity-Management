@@ -2,17 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom"; // Removed Link import
 import "./index.css";
 import SideMenuItem from "../SideMenuItem";
-import {
-  faTrashCan,
-  faRightFromBracket,
-  faArrowUpRightFromSquare,
-  faTriangleExclamation,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
-import ModalForLogout from "../ModalForLogout";
-import Complaints from "../Complaints";
 
 // Define the menu items
 const menuItems = [
@@ -41,6 +33,11 @@ const menuItems = [
     icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/bb12112c297e8467ee8084cc6f3c42f628443e3b4c4c7acc3426ce046d5d2467?placeholderIfAbsent=true&apiKey=c0675f285b7e411a80445cebc7c0b8d3",
     text: "Notices",
     path: "/notice-board",
+  },
+  {
+    icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/bb12112c297e8467ee8084cc6f3c42f628443e3b4c4c7acc3426ce046d5d2467?placeholderIfAbsent=true&apiKey=c0675f285b7e411a80445cebc7c0b8d3",
+    text: "Posts",
+    path: "/posts",
   },
   {
     icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/211ca4d28c940cc88c6e468b1b15f5c250d2da7dae1411d36cb34743e7173a9b?placeholderIfAbsent=true&apiKey=c0675f285b7e411a80445cebc7c0b8d3",

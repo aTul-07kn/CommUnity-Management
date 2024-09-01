@@ -113,6 +113,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  outline: none;
+  cursor: pointer;
+  border: none;
 }
 .big {
   font-size: 24px;

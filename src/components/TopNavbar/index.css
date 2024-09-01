@@ -46,3 +46,8 @@
   cursor: pointer;
   outline: none;
 }
+
+.left-space {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}

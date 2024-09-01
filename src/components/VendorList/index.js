@@ -1,8 +1,7 @@
-// VendorList.jsx
-
-import React from "react";
+import React, { useState } from "react";
 import { MdMiscellaneousServices } from "react-icons/md";
-import { IoPerson } from "react-icons/io5";
+import { MdClose } from "react-icons/md";
+import { FaCirclePlus } from "react-icons/fa6";
 import "./index.css";
 import VendorSummaryCard from "../VendorSummaryCard";
 
@@ -23,15 +22,28 @@ const calculateVendorSummary = (vendors) => {
       value: uniqueServices.size,
       icon: <MdMiscellaneousServices />,
     },
-    {
-      title: "Total No of Vendors",
-      value: totalVendors,
-      icon: <IoPerson />,
-    },
   ];
 };
 
 const VendorList = ({ vendors }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setUploadedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const vendorSummary = calculateVendorSummary(vendors);
 
   return (
@@ -53,7 +65,84 @@ const VendorList = ({ vendors }) => {
       </div>
       <div className="vendors-header">
         <h3>Vendors List</h3>
-        <button className="login-submit-button">Add Vendor</button>
+        <button className="login-submit-button" onClick={toggleModal}>
+          Add Vendor
+        </button>
+        {showModal && (
+          <div className="modal-overlay" onClick={toggleModal}>
+            <div
+              className="v-modal-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="close-btn" onClick={toggleModal}>
+                <MdClose />
+              </button>
+              <div className="modal">
+                <div className="vendor-form">
+                  <div className="image-upload-container">
+                    <div
+                      className="image-upload"
+                      onClick={() =>
+                        document.getElementById("imageUploadInput").click()
+                      }
+                    >
+                      {uploadedImage ? (
+                        <img
+                          src={uploadedImage}
+                          alt="Uploaded"
+                          className="uploaded-image"
+                        />
+                      ) : (
+                        <FaCirclePlus className="add-icon" />
+                      )}
+                    </div>
+                    <input
+                      type="file"
+                      id="imageUploadInput"
+                      style={{ display: "none" }}
+                      onChange={handleImageUpload}
+                    />
+                  </div>
+
+                  <input
+                    type="text"
+                    className="n-inp"
+                    placeholder="Enter Vendor Name here..."
+                  />
+
+                  <input
+                    type="text"
+                    className="n-inp"
+                    placeholder="Enter Company here..."
+                  />
+
+                  <input
+                    type="text"
+                    className="n-inp"
+                    placeholder="Enter Service here..."
+                  />
+
+                  <input
+                    type="text"
+                    className="n-inp"
+                    placeholder="Enter Phone Number here..."
+                  />
+                  <div className="modal-actions">
+                    <button
+                      className="login-submit-button outline no-space size-less"
+                      onClick={toggleModal}
+                    >
+                      Cancel
+                    </button>
+                    <button className="login-submit-button no-space size-less">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <table>
         <thead>

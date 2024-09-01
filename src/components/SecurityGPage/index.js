@@ -1,76 +1,59 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { MdClose } from "react-icons/md";
 import "./index.css";
 
 const dummySecurityData = [
   {
-    id: "S - 001",
     name: "Kathir",
     block: "A",
-    gateNo: 1,
     phoneNumber: "9626488117",
   },
   {
-    id: "S - 002",
     name: "Murugan",
     block: "A",
-    gateNo: 2,
     phoneNumber: "9445497450",
   },
   {
-    id: "S - 005",
     name: "Iyyappan",
     block: "A",
-    gateNo: 1,
     phoneNumber: "9888775670",
   },
   {
-    id: "S - 006",
-    name: "Paramasivam",
+    name: "Siva",
     block: "A",
-    gateNo: 2,
     phoneNumber: "9778868794",
   },
   {
-    id: "S - 003",
     name: "Ganesh",
     block: "B",
-    gateNo: 1,
     phoneNumber: "9080756453",
   },
   {
-    id: "S - 004",
     name: "Kumar",
     block: "B",
-    gateNo: 2,
     phoneNumber: "7896573580",
   },
   {
-    id: "S - 007",
     name: "Sundharaj",
     block: "B",
-    gateNo: 1,
     phoneNumber: "94630238576",
   },
   {
-    id: "S - 008",
     name: "Nallasivam",
     block: "B",
-    gateNo: 2,
     phoneNumber: "8903569358",
   },
 ];
 
-class SecurityGPage extends Component {
-  state = {
-    activeFilter: "All",
+const SecurityGPage = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
   };
 
-  setActiveFilter = (filter) => {
-    this.setState({ activeFilter: filter });
-  };
-
-  filterSecurityData = () => {
-    const { activeFilter } = this.state;
+  const filterSecurityData = () => {
     if (activeFilter === "All") {
       return dummySecurityData;
     }
@@ -79,98 +62,136 @@ class SecurityGPage extends Component {
     return dummySecurityData.filter((data) => data.block === blockFilter);
   };
 
-  render() {
-    const { activeFilter } = this.state;
-    const filteredSecurityData = this.filterSecurityData();
+  const filteredSecurityData = filterSecurityData();
 
-    return (
-      <>
-        <h2 className="ap-head1 mar-top">Security Gaurd Details</h2>
-        <div className="security-filter">
-          {["All", "Block - A", "Block - B"].map((filter) => (
-            <button
-              key={filter}
-              className={`c-block-button ${
-                activeFilter === filter ? "active" : ""
-              }`}
-              onClick={() => this.setActiveFilter(filter)}
-            >
-              {filter}
-            </button>
-          ))}
-          <button className="login-submit-button no-space align-end">
-            + Add Security
+  return (
+    <>
+      <h2 className="ap-head1 mar-top">Security Guard Details</h2>
+      <div className="security-filter">
+        {["All", "Block - A", "Block - B"].map((filter) => (
+          <button
+            key={filter}
+            className={`c-block-button ${
+              activeFilter === filter ? "active" : ""
+            }`}
+            onClick={() => setActiveFilter(filter)}
+          >
+            {filter}
           </button>
-        </div>
-        <div className="security-display-sec">
-          {/* Render blocks based on active filter */}
-          {activeFilter === "All" || activeFilter === "Block - A" ? (
-            <div>
-              <h2 className="block-header">Block - A</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Id</th>
-                    <th>Block</th>
-                    <th>Gate no</th>
-                    <th>Phone no</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredSecurityData
-                    .filter((data) => data.block === "A")
-                    .map((data, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.id}</td>
-                        <td>{data.block}</td>
-                        <td>{data.gateNo}</td>
-                        <td>{data.phoneNumber}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          ) : null}
+        ))}
+        <button
+          className="login-submit-button no-space align-end"
+          onClick={toggleModal}
+        >
+          + Add Security
+        </button>
+        {showModal && (
+          <div className="modal-overlay" onClick={toggleModal}>
+            <div
+              className="s-modal-content"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button className="close-btn" onClick={toggleModal}>
+                <MdClose />
+              </button>
+              <div className="modal">
+                <h3 className="ap-head1">Add Security Guard</h3>
+                <div className="vendor-form">
+                  <input
+                    type="text"
+                    className="n-inp"
+                    placeholder="Enter Security Guard Name here..."
+                  />
 
-          {activeFilter === "All" || activeFilter === "Block - B" ? (
-            <div>
-              <h2 className="block-header">Block - B</h2>
-              <table>
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Name</th>
-                    <th>Id</th>
-                    <th>Block</th>
-                    <th>Gate no</th>
-                    <th>Phone no</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredSecurityData
-                    .filter((data) => data.block === "B")
-                    .map((data, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{data.name}</td>
-                        <td>{data.id}</td>
-                        <td>{data.block}</td>
-                        <td>{data.gateNo}</td>
-                        <td>{data.phoneNumber}</td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                  <input
+                    type="text"
+                    className="n-inp"
+                    placeholder="Enter the Block here..."
+                  />
+
+                  <input
+                    type="text"
+                    className="n-inp"
+                    placeholder="Enter the Phone Number here..."
+                  />
+
+                  <div className="modal-actions space-more">
+                    <button
+                      className="login-submit-button outline no-space size-less"
+                      onClick={toggleModal}
+                    >
+                      Cancel
+                    </button>
+                    <button className="login-submit-button no-space size-less">
+                      Save
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          ) : null}
-        </div>
-      </>
-    );
-  }
-}
+          </div>
+        )}
+      </div>
+      <div className="security-display-sec">
+        {/* Render blocks based on active filter */}
+        {(activeFilter === "All" || activeFilter === "Block - A") && (
+          <div>
+            <h2 className="block-header">Block - A</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Name</th>
+                  <th>Block</th>
+                  <th>Phone no</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredSecurityData
+                  .filter((data) => data.block === "A")
+                  .map((data, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{data.name}</td>
+                      <td>{data.block}</td>
+                      <td>{data.phoneNumber}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {(activeFilter === "All" || activeFilter === "Block - B") && (
+          <div>
+            <h2 className="block-header">Block - B</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Name</th>
+                  <th>Block</th>
+                  <th>Phone no</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredSecurityData
+                  .filter((data) => data.block === "B")
+                  .map((data, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{data.name}</td>
+                      <td>{data.block}</td>
+                      <td>{data.phoneNumber}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
 
 export default SecurityGPage;

@@ -72,3 +72,62 @@ th {
   align-items: center;
   margin-bottom: 20px; /* Adjust as needed */
 }
+.image-upload {
+  width: 80px;
+  height: 80px;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.add-icon {
+  font-size: 24px;
+  color: #333;
+  position: absolute;
+  bottom: 5px;
+  right: 0;
+  cursor: pointer;
+}
+
+/* Vendor Form Inputs */
+.vendor-form {
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding-top: 0;
+}
+
+.vendor-form .n-inp {
+  width: 100%;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  padding-left: 10px;
+  height: 40px;
+}
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  width: 90%;
+}
+.v-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  height: 85%;
+}

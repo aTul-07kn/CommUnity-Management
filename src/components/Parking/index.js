@@ -11,59 +11,42 @@ const randomColors = ["#00A3FF", "#7C00C9", "#1974D9", "#01E032", "#EA7200"];
 
 const dummyParkingData = [
   {
-    id: "P-101,102",
-    ownerName: "Karan",
-    phoneNumber: "9080706050",
-    vehicles: 2,
-    block: "A",
+    parkingLot: "P-101",
+    FlatNo: "A102",
   },
   {
-    id: "P-103",
-    ownerName: "Jawar",
-    phoneNumber: "9998865780",
-    vehicles: 1,
-    block: "A",
+    parkingLot: "P-102",
+    FlatNo: "B202",
   },
   {
-    id: "P-104",
-    ownerName: "Vijay",
-    phoneNumber: "8900200022",
-    vehicles: 1,
-    block: "A",
+    parkingLot: "P-103",
+    FlatNo: "A203",
   },
   {
-    id: "P-105,106",
-    ownerName: "Surya",
-    phoneNumber: "9900077000",
-    vehicles: 2,
-    block: "A",
+    parkingLot: "P-104",
+    FlatNo: "B104",
   },
   {
-    id: "P-107",
-    ownerName: "Saravanan",
-    phoneNumber: "7890091234",
-    vehicles: 1,
-    block: "A",
+    parkingLot: "P-105",
+    FlatNo: "A105",
   },
   {
-    id: "P-108",
-    ownerName: "Thangavel",
-    phoneNumber: "9956789010",
-    vehicles: 1,
-    block: "B",
+    parkingLot: "P-106",
+    FlatNo: "B306",
   },
   {
-    id: "P-109,110",
-    ownerName: "Kumar",
-    phoneNumber: "9090808080",
-    vehicles: 2,
-    block: "B",
+    parkingLot: "P-107",
+    FlatNo: "A107",
+  },
+  {
+    parkingLot: "P-108",
+    FlatNo: "B108",
   },
 ];
 
 const calculateParkingSummary = (parkingData) => {
-  const totalParkingLots = parkingData.length;
-  const occupiedLots = parkingData.filter((data) => data.vehicles > 0).length;
+  const totalParkingLots = 50;
+  const occupiedLots = parkingData.length;
   const unoccupiedLots = totalParkingLots - occupiedLots;
 
   return [
@@ -102,15 +85,14 @@ class Parking extends Component {
   filterParkingData = () => {
     const { activeFilter, searchQuery } = this.state;
 
-    // Apply block filtering
+    // Apply block filtering based on the first character of FlatNo
     let filteredData = dummyParkingData;
     if (activeFilter !== "All") {
-      filteredData = filteredData.filter(
-        (data) => data.block === activeFilter.split(" - ")[1]
-      );
+      const block = activeFilter.split(" - ")[1]; // Get the block letter (e.g., "A" or "B")
+      filteredData = filteredData.filter((data) => data.FlatNo[0] === block);
     }
 
-    // Apply search filtering
+    // Apply search filtering (if you have ownerName in your data)
     if (searchQuery) {
       filteredData = filteredData.filter((data) =>
         data.ownerName.toLowerCase().includes(searchQuery.toLowerCase())
@@ -157,7 +139,7 @@ class Parking extends Component {
                   {filter}
                 </button>
               ))}
-              <div className="search-container">
+              {/* <div className="search-container">
                 <input
                   type="text"
                   placeholder="Search by owner name..."
@@ -166,13 +148,13 @@ class Parking extends Component {
                   className="ap-search-input"
                 />
                 <IoSearch className="ap-search-icon" />
-              </div>
+              </div> */}
               <div className="complaints-display-sec">
                 <div className="p-add-sec">
                   <h1 className="ap-head1">Parking Lot List</h1>
-                  <button className="login-submit-button no-space">
+                  {/* <button className="login-submit-button no-space">
                     + Add Parking Lot
-                  </button>
+                  </button> */}
                 </div>
 
                 <table>
@@ -180,19 +162,15 @@ class Parking extends Component {
                     <tr>
                       <th>No</th>
                       <th>Parking ID</th>
-                      <th>Owner Name</th>
-                      <th>Phone Number</th>
-                      <th>No of Vehicles</th>
+                      <th>Flat Number</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredParkingData.map((data, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{data.id}</td>
-                        <td>{data.ownerName}</td>
-                        <td>{data.phoneNumber}</td>
-                        <td>{data.vehicles}</td>
+                        <td>{data.parkingLot}</td>
+                        <td>{data.FlatNo}</td>
                       </tr>
                     ))}
                   </tbody>

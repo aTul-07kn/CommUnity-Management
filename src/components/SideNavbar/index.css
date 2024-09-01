@@ -10,6 +10,7 @@
   left: 0;
   top: 0;
   box-sizing: border-box;
+  box-shadow: 5px 0 10px rgba(0, 0, 255, 0.3);
 }
 
 .side-nav-logo {
@@ -70,7 +71,7 @@
   height: 100%;
 }
 .popup-content {
-  width: 25%;
+  width: 40% !important;
   border-radius: 10px;
   height: 220px;
 }

@@ -6,6 +6,9 @@ import { IoTimerSharp } from "react-icons/io5";
 import { FaThumbsUp } from "react-icons/fa6";
 import { FaRegThumbsUp } from "react-icons/fa";
 
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
+
 import "./index.css";
 
 const Card = ({ notice, type }) => {
@@ -37,9 +40,46 @@ const Card = ({ notice, type }) => {
         <button className="edit-btn">
           <MdEdit style={{ color: "white" }} />
         </button>
-        <button className="edit-btn">
-          <MdDelete style={{ color: "white" }} />
-        </button>
+
+        <Popup
+          trigger={
+            <button className="edit-btn">
+              <MdDelete style={{ color: "white", cursor: "pointer" }} />
+            </button>
+          }
+          modal
+        >
+          {(close) => (
+            <div className="modal">
+              <div className="p-header">
+                <MdDelete style={{ color: "#1A4258", fontSize: "40px" }} />
+                <p className="head4"> Are you sure you want to Delete?</p>
+              </div>
+
+              <div className="actions">
+                <button
+                  className="login-submit-button no-space size-less outline"
+                  onClick={() => {
+                    console.log("modal closed ");
+                    close();
+                  }}
+                >
+                  cancel
+                </button>
+                <button
+                  className="login-submit-button no-space size-less"
+                  onClick={() => {
+                    // logout();
+                    close();
+                    console.log("modal closed ");
+                  }}
+                >
+                  Yes
+                </button>
+              </div>
+            </div>
+          )}
+        </Popup>
       </div>
     </div>
   );

@@ -25,3 +25,15 @@
 .mar-top {
   margin-top: 100px;
 }
+.s-modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 350px;
+  position: relative;
+  height: 80%;
+}
+.space-more {
+  width: 100%;
+}

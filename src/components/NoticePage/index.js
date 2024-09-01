@@ -1,10 +1,11 @@
-import { Component } from "react";
+import React, { useState } from "react";
 import SideNavbar from "../SideNavbar";
 import TopNavbar from "../TopNavbar";
-import { MdEdit, MdDelete, MdDateRange } from "react-icons/md";
 import { HiPlusCircle } from "react-icons/hi2";
+import { MdClose } from "react-icons/md"; // Import the close icon
 import Card from "../Card";
 import "./index.css";
+
 const notices = [
   {
     id: 1,
@@ -38,33 +39,83 @@ const notices = [
   },
 ];
 
-class NoticePage extends Component {
-  render() {
-    return (
-      <div className="apartment-container">
-        <SideNavbar />
-        <div className="apartment-right-sec">
-          <TopNavbar heading="Notices" full={false} />
-          <div className="apartment-right-main-sec">
-            <div className="notice-board">
-              <button className="add-notice-btn">
-                <span>
-                  <HiPlusCircle />
-                </span>{" "}
-                Add Notice
-              </button>
-              <h2 className="notice-title big">Notice List</h2>
-              <div className="notice-list">
-                {notices.map((notice) => (
-                  <Card key={notice.id} notice={notice} type="notice" />
-                ))}
+const NoticePage = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal((prevShowModal) => !prevShowModal);
+  };
+
+  return (
+    <div className="apartment-container">
+      <SideNavbar />
+      <div className="apartment-right-sec">
+        <TopNavbar heading="Notices" full={false} />
+        <div className="apartment-right-main-sec">
+          <div className="notice-board">
+            <button className="add-notice-btn" onClick={toggleModal}>
+              <span>
+                <HiPlusCircle />
+              </span>{" "}
+              Add Notice
+            </button>
+
+            {showModal && (
+              <div className="modal-overlay" onClick={toggleModal}>
+                <div
+                  className="modal-content"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button className="close-btn" onClick={toggleModal}>
+                    <MdClose />
+                  </button>
+                  <div className="modal">
+                    <p className="head4 n-no-space">Add Notice</p>
+                    <div className="notice-form">
+                      <div className="notice-upper-sec">
+                        <div className="n-img-upload">
+                          <span>
+                            <HiPlusCircle /> Add Image
+                          </span>
+                          <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            accept="image/*"
+                            className="n-img-up-in"
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          className="n-inp"
+                          placeholder="Enter Notice title here..."
+                        />
+                      </div>
+                      <textarea
+                        className="n-textarea"
+                        placeholder="Enter the description here..."
+                        rows={5}
+                      />
+                      <button className="login-submit-button no-space right-align">
+                        Add Notice
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
+            )}
+
+            <h2 className="notice-title big">Notice List</h2>
+            <div className="notice-list">
+              {notices.map((notice) => (
+                <Card key={notice.id} notice={notice} type="notice" />
+              ))}
             </div>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default NoticePage;

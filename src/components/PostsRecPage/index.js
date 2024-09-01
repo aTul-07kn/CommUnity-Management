@@ -1,8 +1,9 @@
-import { Component } from "react";
+import React from "react";
+import { useState } from "react";
 import SideNavbar from "../SideNavbar";
 import TopNavbar from "../TopNavbar";
-
 import { HiPlusCircle } from "react-icons/hi2";
+import { MdClose } from "react-icons/md";
 import Card from "../Card";
 import "./index.css";
 import "../NoticePage/index.css";
@@ -41,33 +42,81 @@ const posts = [
   },
 ];
 
-class PostsMainPage extends Component {
-  render() {
-    return (
-      <div className="apartment-container">
-        <SideNavbar />
-        <div className="apartment-right-sec">
-          <TopNavbar heading="Posts" />
-          <div className="apartment-right-main-sec">
-            <div className="notice-board">
-              <button className="add-notice-btn">
-                <span>
-                  <HiPlusCircle />
-                </span>{" "}
-                Create Post
-              </button>
-              <h2 className="notice-title big">Posts</h2>
-              <div className="posts-list">
-                {posts.map((post) => (
-                  <Card key={post.id} notice={post} type="posts" />
-                ))}
+const PostsMainPage = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const toggleModal = () => {
+    setShowModal((prevShowModal) => !prevShowModal);
+  };
+
+  return (
+    <div className="apartment-container">
+      <SideNavbar />
+      <div className="apartment-right-sec">
+        <TopNavbar heading="Posts" />
+        <div className="apartment-right-main-sec">
+          <div className="notice-board">
+            <button className="add-notice-btn" onClick={toggleModal}>
+              <span>
+                <HiPlusCircle />
+              </span>{" "}
+              Create Post
+            </button>
+            {showModal && (
+              <div className="modal-overlay" onClick={toggleModal}>
+                <div
+                  className="modal-content"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <button className="close-btn" onClick={toggleModal}>
+                    <MdClose />
+                  </button>
+                  <div className="modal">
+                    <p className="head4 n-no-space">Add Post</p>
+                    <div className="notice-form">
+                      <div className="notice-upper-sec">
+                        <div className="n-img-upload">
+                          <span>
+                            <HiPlusCircle /> Add Image
+                          </span>
+                          <input
+                            type="file"
+                            id="image"
+                            name="image"
+                            accept="image/*"
+                            className="n-img-up-in"
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          className="n-inp"
+                          placeholder="Enter title here..."
+                        />
+                      </div>
+                      <textarea
+                        className="n-textarea"
+                        placeholder="Enter the description here..."
+                        rows={5}
+                      />
+                      <button className="login-submit-button no-space right-align">
+                        Add Post
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
+            )}
+            <h2 className="notice-title big">Posts</h2>
+            <div className="posts-list">
+              {posts.map((post) => (
+                <Card key={post.id} notice={post} type="posts" />
+              ))}
             </div>
           </div>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default PostsMainPage;
