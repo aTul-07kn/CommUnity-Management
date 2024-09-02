@@ -7,10 +7,7 @@ import com.capstone.SocietyManagementService.dto.residentdtos.ResidentResponse;
 import com.capstone.SocietyManagementService.exception.ResidentAlreadyExistsException;
 import com.capstone.SocietyManagementService.exception.ResidentNotFoundException;
 import com.capstone.SocietyManagementService.exception.SocietyNotFoundException;
-import com.capstone.SocietyManagementService.model.Flat;
-import com.capstone.SocietyManagementService.model.Parking;
-import com.capstone.SocietyManagementService.model.Resident;
-import com.capstone.SocietyManagementService.model.Society;
+import com.capstone.SocietyManagementService.model.*;
 import com.capstone.SocietyManagementService.repository.FlatRepository;
 import com.capstone.SocietyManagementService.repository.ParkingRepository;
 import com.capstone.SocietyManagementService.repository.ResidentRepository;
@@ -92,8 +89,6 @@ public class ResidentService {
         resident.setName(residentRequestToUpdate.getName());
         resident.setPhoneNo(residentRequestToUpdate.getPhoneNo());
         resident.setEmail(residentRequestToUpdate.getEmail());
-        resident.setPassword(residentRequestToUpdate.getPassword());
-
         Resident savedResident = residentRepository.save(resident);
 
         return entityToDto(savedResident);
@@ -121,20 +116,20 @@ public class ResidentService {
                 .collect(Collectors.toList());
     }
 
-    private Resident dtoToEntity(ResidentRequest residentRequest, Flat flat){
+    private Resident dtoToEntity(ResidentRequest residentRequest, Flat flat) {
         Resident newResident = new Resident();
         newResident.setName(residentRequest.getName());
         newResident.setPhoneNo(residentRequest.getPhoneNo());
         newResident.setEmail(residentRequest.getEmail());
-        newResident.setPassword(residentRequest.getPassword());
         newResident.setFlatNo(residentRequest.getFlatNo());
         newResident.setPostal(residentRequest.getPostal());
         newResident.setSocietyName(residentRequest.getSocietyName());
         newResident.setSocietyId(flat.getSociety().getId());
-        newResident.setRole(residentRequest.getRole());
+        newResident.setRole(Role.RESIDENT);
         newResident.setFlat(flat);
         return newResident;
     }
+
 
     private ResidentResponse entityToDto(Resident resident) {
         ResidentResponse residentDto = new ResidentResponse();
@@ -146,7 +141,8 @@ public class ResidentService {
         residentDto.setEmail(resident.getEmail());
         residentDto.setSocietyName(resident.getFlat().getSociety().getSocietyName());
         residentDto.setSocietyId(resident.getFlat().getSociety().getId());
-        residentDto.setRole(resident.getRole());
+        residentDto.setRole(resident.getRole()); // Directly assign Role enum
         return residentDto;
     }
+
 }

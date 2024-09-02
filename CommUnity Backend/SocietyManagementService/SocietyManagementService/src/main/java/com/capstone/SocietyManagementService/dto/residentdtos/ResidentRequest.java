@@ -1,5 +1,6 @@
 package com.capstone.SocietyManagementService.dto.residentdtos;
 
+import com.capstone.SocietyManagementService.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,5 @@ public class ResidentRequest {
     private String flatNo;
     private String postal;
     private String email;
-    private String password;
     private String societyName;
-    private String role;
 }

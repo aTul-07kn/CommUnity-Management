@@ -21,10 +21,12 @@ public class Resident {
     private String flatNo;
     private String postal;
     private String email;
-    private String password;
     private String societyName;
     private long societyId;
-    private String role;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flat_id")
     private Flat flat;

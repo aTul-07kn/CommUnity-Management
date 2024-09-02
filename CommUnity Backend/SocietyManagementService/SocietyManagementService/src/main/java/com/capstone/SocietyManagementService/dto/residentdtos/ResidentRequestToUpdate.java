@@ -11,5 +11,4 @@ public class ResidentRequestToUpdate {
     private String name;
     private String phoneNo;
     private String email;
-    private String password;
 }

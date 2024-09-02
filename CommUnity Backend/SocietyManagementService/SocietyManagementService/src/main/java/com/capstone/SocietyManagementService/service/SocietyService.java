@@ -10,8 +10,11 @@ import com.capstone.SocietyManagementService.dto.societydtos.SocietyResponse;
 import com.capstone.SocietyManagementService.exception.SocietyNotFoundException;
 import com.capstone.SocietyManagementService.feign.EventClient;
 import com.capstone.SocietyManagementService.feign.NoticeClient;
+import com.capstone.SocietyManagementService.model.Flat;
 import com.capstone.SocietyManagementService.model.Resident;
+import com.capstone.SocietyManagementService.model.Role;
 import com.capstone.SocietyManagementService.model.Society;
+import com.capstone.SocietyManagementService.repository.FlatRepository;
 import com.capstone.SocietyManagementService.repository.ResidentRepository;
 import com.capstone.SocietyManagementService.repository.SocietyRepository;
 import jakarta.transaction.Transactional;
@@ -38,6 +41,9 @@ public class SocietyService {
     @Autowired
     private EventClient eventClient;
 
+    @Autowired
+    private FlatRepository flatRepository;
+
     //Method to create a new society
     @Transactional
     public SocietyResponse createSociety(SocietyRequest societyRequest) {
@@ -50,12 +56,16 @@ public class SocietyService {
         adminResident.setPhoneNo(societyRequest.getPhoneNo());
         adminResident.setPostal(societyRequest.getPostal());
         adminResident.setEmail(societyRequest.getEmail());
-        adminResident.setPassword(societyRequest.getPassword());
         adminResident.setSocietyName(savedSociety.getSocietyName());
         adminResident.setSocietyId(savedSociety.getId());
-        adminResident.setRole("ROLE_ADMIN");
+        adminResident.setRole(Role.ADMIN);
 
-        adminResident.setFlat(null);
+        Flat adminFlat=new Flat();
+        adminFlat.setFlatNo("ADMIN-FL"+savedSociety.getId());
+        adminFlat.setSociety(savedSociety);
+        Flat savedAdminFlat=flatRepository.save(adminFlat);
+        adminResident.setFlatNo(savedAdminFlat.getFlatNo());
+        adminResident.setFlat(savedAdminFlat);
 
         residentRepository.save(adminResident);
 
@@ -182,7 +192,6 @@ public class SocietyService {
         society.setDistrict(societyRequest.getDistrict());
         society.setPostal(societyRequest.getPostal());
         society.setEmail(societyRequest.getEmail());
-        society.setPassword(societyRequest.getPassword());
         return society;
     }
 }

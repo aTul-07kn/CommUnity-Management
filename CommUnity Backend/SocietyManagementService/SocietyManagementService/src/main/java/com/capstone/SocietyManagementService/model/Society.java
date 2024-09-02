@@ -27,7 +27,6 @@ public class Society {
     private String district;
     private String postal;
     private String email;
-    private String password;
 
     // One Society can have multiple Flats
     @OneToMany(mappedBy = "society", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
