@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface SocietyRepository extends JpaRepository<Society, Long> {
     Optional<Society> findBySocietyNameAndPostal(String societyName, String postal);
+
+    Society findByEmail(String email);
 }

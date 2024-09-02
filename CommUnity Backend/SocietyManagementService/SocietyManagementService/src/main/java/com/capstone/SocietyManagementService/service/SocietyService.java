@@ -109,6 +109,14 @@ public class SocietyService {
         return eventClient.getEventsBySocietyId(societyId);
     }
 
+    public SocietyResponse getSocietyByEmail(String email) {
+        Society society = repo.findByEmail(email);
+        if(society!= null){
+            return entityToDto(society);
+        }
+        throw new SocietyNotFoundException("Society not found with email: "+email);
+    }
+    
     //Method to convert entity to dto
     private SocietyResponse entityToDto(Society savedSociety) {
         SocietyResponse societyDto = new SocietyResponse();
@@ -194,4 +202,5 @@ public class SocietyService {
         society.setEmail(societyRequest.getEmail());
         return society;
     }
+
 }

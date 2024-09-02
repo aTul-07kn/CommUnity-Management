@@ -33,6 +33,10 @@ public class SocietyController {
         return new ResponseEntity<>(societyService.getSocietyById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/by-email/{email}")
+    public ResponseEntity<SocietyResponse> getSocietyByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(societyService.getSocietyByEmail(email), HttpStatus.OK);
+    }
     @DeleteMapping("/delete-society/{id}")
     public ResponseEntity<String> deleteSociety(@PathVariable Long id) {
         societyService.deleteSocietyById(id);
