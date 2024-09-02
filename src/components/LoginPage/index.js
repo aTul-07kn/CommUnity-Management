@@ -1,44 +1,132 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode"; // Import jwtDecode without curly braces
 import "./index.css";
 
-class LoginPage extends Component {
-  render() {
-    return (
-      <div className="login-page-container">
-        <div className="login-left-sec"></div>
-        <div className="login-right-sec">
-          <img
-            src="https://res.cloudinary.com/digbzwlfx/image/upload/v1724905823/Group_315_gyjyyl.png"
-            alt="main-logo"
-            className="login-main-logo"
-          />
-          <div className="login-title-wrapper">
-            <h1 className="login-title">Login</h1>
-            <p className="login-welcome-text">Welcome Back</p>
-          </div>
+const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [navigatePath, setNavigatePath] = useState(null);
+
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    if (id === "email") {
+      setEmail(value);
+    } else if (id === "password") {
+      setPassword(value);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch("http://localhost:9999/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const jwtToken = data.token;
+        const decodedToken = jwtDecode(jwtToken);
+        const roles = decodedToken.roles;
+        const userRole = roles[0].slice(5); // Remove "ROLE_" from role string
+
+        Cookies.set("jwt_token", jwtToken);
+        Cookies.set("role", userRole);
+
+        const residentResponse = await fetch(
+          `http://localhost:9999/api/community/management-service/residents/findby-email/${email}`
+        );
+
+        if (residentResponse.ok) {
+          // User found in residents table
+          setNavigatePath("/dashboard");
+        } else if (residentResponse.status === 404) {
+          // User not found in residents table
+          if (userRole === "ADMIN") {
+            setNavigatePath("/admin-register");
+          } else {
+            setNavigatePath("/dashboard");
+          }
+        } else {
+          // Handle other errors from the resident API
+          const errorData = await residentResponse.json();
+          
+          setErrorMessage(
+            errorData || "An error occurred while checking user details."
+          );
+        }
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.description || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setErrorMessage("An error occurred during login.");
+    }
+  };
+
+  if (navigatePath) {
+    return <Navigate to={navigatePath} />;
+  }
+
+  return (
+    <div className="login-page-container">
+      <div className="login-left-sec"></div>
+      <div className="login-right-sec">
+        <img
+          src="https://res.cloudinary.com/digbzwlfx/image/upload/v1724905823/Group_315_gyjyyl.png"
+          alt="main-logo"
+          className="login-main-logo"
+        />
+        <div className="login-title-wrapper">
+          <h1 className="login-title">Login</h1>
+          <p className="login-welcome-text">Welcome Back</p>
+        </div>
+        <form onSubmit={handleSubmit} className="new-form">
           <div className="login-input-group">
-            <label htmlFor="emailInput" className="login-input-label">
+            <label htmlFor="email" className="login-input-label">
               EMAIL
             </label>
-            <input type="email" id="emailInput" className="login-input-field" />
+            <input
+              type="email"
+              id="email"
+              className="login-input-field"
+              value={email}
+              onChange={handleInputChange}
+              required
+            />
           </div>
           <div className="login-input-group">
-            <label htmlFor="passwordInput" className="login-input-label">
+            <label htmlFor="password" className="login-input-label">
               PASSWORD
             </label>
             <input
               type="password"
-              id="passwordInput"
+              id="password"
               className="login-input-field"
+              value={password}
+              onChange={handleInputChange}
+              required
             />
           </div>
+          {errorMessage && <p className="error-message">* {errorMessage}</p>}
           <button type="submit" className="login-submit-button">
             Login
           </button>
-        </div>
+        </form>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default LoginPage;

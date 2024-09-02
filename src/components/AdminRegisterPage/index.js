@@ -34,7 +34,7 @@ class AdminRegisterPage extends Component {
         <div className="ad-img-sec"></div>
         <div className="ad-inp-sec">
           <div className="ad-inp-top-sec">
-            <h3 className="ad-head1">Register Here</h3>
+            <h3 className="ad-head1">Fill these details to continue</h3>
             <img
               src="https://res.cloudinary.com/digbzwlfx/image/upload/v1724896011/logo-color_1_i3fzir.png"
               alt="logo"

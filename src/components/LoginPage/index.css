@@ -98,3 +98,8 @@
 .login-main-logo {
   height: 120px;
 }
+.error-message {
+  color: #d9534f;
+  font-size: 12px;
+  font-family: Poppins;
+}
