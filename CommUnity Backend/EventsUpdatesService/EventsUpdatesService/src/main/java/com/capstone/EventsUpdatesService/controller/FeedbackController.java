@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/community/feedback")
+@RequestMapping("/api/community/event-service/feedback")
 public class FeedbackController {
 
     @Autowired

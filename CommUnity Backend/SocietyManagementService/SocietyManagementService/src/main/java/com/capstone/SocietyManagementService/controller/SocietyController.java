@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/community/societies")
+@RequestMapping("/api/community/management-service/societies")
 public class SocietyController {
     @Autowired
     private SocietyService societyService;

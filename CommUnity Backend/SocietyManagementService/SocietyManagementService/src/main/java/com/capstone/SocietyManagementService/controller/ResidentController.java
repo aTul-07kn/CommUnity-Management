@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/community/residents")
+@RequestMapping("/api/community/management-service/residents")
 public class ResidentController {
 
     @Autowired

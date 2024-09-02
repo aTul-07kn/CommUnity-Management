@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/community/event")
+@RequestMapping("/api/community/event-service/event")
 public class EventController {
 
     @Autowired
@@ -24,7 +24,7 @@ public class EventController {
     }
 
     // Get all events
-    @GetMapping("/get-notices")
+    @GetMapping("/get-events")
     public ResponseEntity<List<EventDto>> getAllEvents() {
         List<EventDto> events = eventService.getAllEvents();
         return ResponseEntity.ok(events);

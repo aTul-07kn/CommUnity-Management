@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-    @RequestMapping("/api/community/notice")
+    @RequestMapping("/api/community/event-service/notice")
 public class NoticeController {
 
     @Autowired
