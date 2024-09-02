@@ -13,7 +13,9 @@ import NoticePage from "./components/NoticePage";
 import PostsMainPage from "./components/PostsRecPage";
 import EmergencyContacts from "./components/EmergencyConPage";
 import UserProfile from "./components/UserProfile";
+import Events from "./components/Events";
 import "./App.css";
+import SignUpPage from "./components/NewSignUp";
 
 function App() {
   return (
@@ -23,7 +25,7 @@ function App() {
         <Route path="/join-here" element={<JoinHere />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/admin-register" element={<AdminRegisterPage />} />
-        <Route path="/user-signup" element={<UserSignUpPage />} />
+        <Route path="/user-signup" element={<SignUpPage />} />
         <Route path="/apartment" element={<Apartment />} />
         <Route path="/request" element={<RequestsPage />} />
         <Route path="/complaint" element={<Complaints />} />
@@ -33,6 +35,8 @@ function App() {
         <Route path="/security-guards" element={<SecurityGPage />} />
         <Route path="/emergency-contacts" element={<EmergencyContacts />} />
         <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/events" element={<Events />} />
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
