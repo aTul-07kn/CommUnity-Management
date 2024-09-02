@@ -78,7 +78,7 @@ class LoginPage extends Component {
               </select>
             </div>
             <button type="submit" className="login-submit-button">
-              Login
+              SignUp
             </button>
           </form>
         </div>

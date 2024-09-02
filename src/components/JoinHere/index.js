@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./index.css"; // Import global styles
 
 class JoinHere extends Component {
@@ -16,15 +17,19 @@ class JoinHere extends Component {
           <div className="joinSection">
             <h1 className="joinTitle">Join Here</h1>
             <div className="buttonGroup">
-              <button className="j-button-content">Login</button>
-
-              <button className="j-button-content">Sign up</button>
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                <button className="j-button-content">Login</button>
+              </Link>
+              <p>Or </p>
+              <Link to="/user-signup" style={{ textDecoration: "none" }}>
+                <button className="j-button-content">Sign up</button>
+              </Link>
             </div>
           </div>
-          <div className="registerSection">
+          {/* <div className="registerSection">
             <p className="registerText">Register your community</p>
             <button className="registerButton">Register</button>
-          </div>
+          </div> */}
         </section>
       </main>
     );

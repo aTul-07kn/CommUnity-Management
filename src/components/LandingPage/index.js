@@ -1,6 +1,7 @@
 import React from "react";
 import LandingNavbar from "../LandingNavbar";
 import Footer from "../Footer";
+import { Link } from "react-router-dom";
 import "./index.css";
 
 function LandingPage() {
@@ -18,7 +19,16 @@ function LandingPage() {
               comprehensive set of features tailored for everyone.
             </p>
             <div className="ctaWrapper">
-              <button className="ctaButton">Get Started</button>
+              <Link
+                to="/join-here"
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                  fontFamily: "Poppins",
+                }}
+              >
+                <button className="ctaButton">Get Started</button>
+              </Link>
             </div>
           </div>
         </div>
