@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="941ffaa1-062e-4bec-bed3-2c3fbeb27312" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../ComplaintRequestService/ComplaintRequestService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../ComplaintRequestService/ComplaintRequestService/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../EventsUpdatesService/EventsUpdatesService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../EventsUpdatesService/EventsUpdatesService/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SocietyManagementService/SocietyManagementService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../SocietyManagementService/SocietyManagementService/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../securityfiles/src/main/java/com/serviceharbor/auth/UserManagementApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../securityfiles/src/main/java/com/serviceharbor/auth/UserManagementApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../securityfiles/src/main/java/com/serviceharbor/auth/configs/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../securityfiles/src/main/java/com/serviceharbor/auth/configs/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../securityfiles/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../securityfiles/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../securityfiles/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../securityfiles/target/classes/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../securityfiles/target/classes/com/serviceharbor/auth/UserManagementApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/../securityfiles/target/classes/com/serviceharbor/auth/UserManagementApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../securityfiles/target/classes/com/serviceharbor/auth/configs/SecurityConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/../securityfiles/target/classes/com/serviceharbor/auth/configs/SecurityConfiguration.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/components/AdminRegisterPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/AdminRegisterPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/components/LoginPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/LoginPage/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

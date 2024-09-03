@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; // Import jwtDecode without curly braces
 import "./index.css";
@@ -8,7 +8,8 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [navigatePath, setNavigatePath] = useState(null);
+  const [result, setResult] = useState({});
+  const navigate = useNavigate();
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -43,24 +44,33 @@ const LoginPage = () => {
         Cookies.set("jwt_token", jwtToken);
         Cookies.set("role", userRole);
 
-        const residentResponse = await fetch(
-          `http://localhost:9999/api/community/management-service/residents/findby-email/${email}`
-        );
+        const url =
+          userRole === "ADMIN"
+            ? `http://localhost:9999/api/community/management-service/societies/by-email/${email}`
+            : `http://localhost:9999/api/community/management-service/residents/findby-email/${email}`;
+
+        const residentResponse = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`, // Include the JWT token in the header
+          },
+        });
 
         if (residentResponse.ok) {
-          // User found in residents table
-          setNavigatePath("/dashboard");
+          const data1 = await residentResponse.json();
+          console.log(data1);
+          setResult(data1);
+          navigate("/posts");
         } else if (residentResponse.status === 404) {
           // User not found in residents table
           if (userRole === "ADMIN") {
-            setNavigatePath("/admin-register");
+            navigate("/admin-register", { state: { email } });
           } else {
-            setNavigatePath("/dashboard");
+            navigate("/user-register", { state: { email } });
           }
         } else {
           // Handle other errors from the resident API
           const errorData = await residentResponse.json();
-          
+
           setErrorMessage(
             errorData || "An error occurred while checking user details."
           );
@@ -74,10 +84,6 @@ const LoginPage = () => {
       setErrorMessage("An error occurred during login.");
     }
   };
-
-  if (navigatePath) {
-    return <Navigate to={navigatePath} />;
-  }
 
   return (
     <div className="login-page-container">
