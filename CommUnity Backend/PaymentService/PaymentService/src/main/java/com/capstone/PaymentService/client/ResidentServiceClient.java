@@ -16,5 +16,4 @@ public interface ResidentServiceClient {
 
     @GetMapping("/api/community/management-service/residents/findby-email/{email}")
     public ResidentResponse getResidentByEmail(@PathVariable("email") String email);
-
 }

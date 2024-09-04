@@ -16,6 +16,42 @@ const apiStatusConstants = {
 const BillingPage = () => {
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.success);
 
+  const handlePayment = async () => {
+    const jwtToken = Cookies.get("jwt_token");
+
+    try {
+      const data = JSON.parse(localStorage.getItem("data"));
+
+      const newPayment = {
+        amount: 3500,
+        description: `maintenance_bill_for_${data.flatNo}`,
+        email: data.email,
+      };
+
+      const createNoticeResponse = await fetch(
+        "http://localhost:9999/api/community/payment/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          body: JSON.stringify(newPayment),
+        }
+      );
+      console.log(createNoticeResponse);
+
+      if (createNoticeResponse.ok) {
+        console.log("Notice created successfully");
+      } else {
+        setApiStatus(apiStatusConstants.failure);
+      }
+    } catch (error) {
+      setApiStatus(apiStatusConstants.failure);
+      console.error("Error creating notice:", error);
+    }
+  };
+
   const renderLoadingView = () => (
     <div className="loader-container">
       <RotatingLines
@@ -50,7 +86,9 @@ const BillingPage = () => {
       <div className="apartment-right-main-sec full-height">
         <div className="billing-sec">
           <h1 className="ap-head1">Monthly Maintenance Bill: 3500/-</h1>
-          <button className="red-btn">Pay Money</button>
+          <button className="red-btn" onClick={handlePayment}>
+            Pay Money
+          </button>
         </div>
       </div>
     );
