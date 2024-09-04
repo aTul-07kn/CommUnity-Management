@@ -74,6 +74,12 @@ spring:
             predicates:
               - Path=/api/community/event-service/post/**
 
+
+          - id: lbservice-route14
+            uri: lb://PAYMENTSERVICE
+            predicates:
+              - Path=/api/community/payment/**
+
     discovery:
       enabled: true
 
