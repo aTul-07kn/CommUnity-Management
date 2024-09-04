@@ -33,12 +33,13 @@
 .n-text {
   font-family: Poppins;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 500;
+  cursor: pointer;
 }
 .av-sec {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 120px;
   border: none;

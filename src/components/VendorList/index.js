@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { MdMiscellaneousServices } from "react-icons/md";
 import { MdClose } from "react-icons/md";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FaCirclePlus } from "react-icons/fa6";
+import { useEffect } from "react";
 import "./index.css";
 import VendorSummaryCard from "../VendorSummaryCard";
+import Cookies from "js-cookie";
 
 const randomColors = ["#00A3FF", "#7C00C9", "#1974D9", "#EA7200", "#01E032"];
 
@@ -25,9 +29,29 @@ const calculateVendorSummary = (vendors) => {
   ];
 };
 
-const VendorList = ({ vendors }) => {
+const VendorList = (props) => {
+  const { role, vendors } = props;
   const [showModal, setShowModal] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [formDetails, setFormDetails] = useState({
+    name: "",
+    company: "",
+    service: "",
+    phoneNo: "",
+    email: "",
+    societyId: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    if (data) {
+      setFormDetails((prevDetails) => ({
+        ...prevDetails,
+        societyId: data.id || "", // Set the societyId from data
+      }));
+    }
+  }, []);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -44,7 +68,42 @@ const VendorList = ({ vendors }) => {
     }
   };
 
+  const handleInputChange = (e) => {
+    setFormDetails({
+      ...formDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const jwtToken = Cookies.get("jwt_token");
+      const response = await fetch(
+        `http://localhost:9999/api/community/complaint-service/vendor/create`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          body: JSON.stringify(formDetails),
+        }
+      );
+
+      if (response.ok) {
+        // Optionally, you can refresh the vendor list or close the modal here
+        toggleModal();
+      } else {
+        setErrorMessage("Failed to add the vendor. Try again later!");
+        console.error("Failed to update vendor");
+      }
+    } catch (error) {
+      setErrorMessage(`Error updating vendor:, ${error}`);
+    }
+  };
+
   const vendorSummary = calculateVendorSummary(vendors);
+  console.log(vendors);
 
   return (
     <div className="vendor-list">
@@ -65,9 +124,12 @@ const VendorList = ({ vendors }) => {
       </div>
       <div className="vendors-header">
         <h3>Vendors List</h3>
-        <button className="login-submit-button" onClick={toggleModal}>
-          Add Vendor
-        </button>
+        {role === "ADMIN" && (
+          <button className="login-submit-button" onClick={toggleModal}>
+            Add Vendor
+          </button>
+        )}
+
         {showModal && (
           <div className="modal-overlay" onClick={toggleModal}>
             <div
@@ -80,22 +142,6 @@ const VendorList = ({ vendors }) => {
               <div className="modal">
                 <div className="vendor-form">
                   <div className="image-upload-container">
-                    <div
-                      className="image-upload"
-                      onClick={() =>
-                        document.getElementById("imageUploadInput").click()
-                      }
-                    >
-                      {uploadedImage ? (
-                        <img
-                          src={uploadedImage}
-                          alt="Uploaded"
-                          className="uploaded-image"
-                        />
-                      ) : (
-                        <FaCirclePlus className="add-icon" />
-                      )}
-                    </div>
                     <input
                       type="file"
                       id="imageUploadInput"
@@ -108,24 +154,44 @@ const VendorList = ({ vendors }) => {
                     type="text"
                     className="n-inp"
                     placeholder="Enter Vendor Name here..."
+                    name="name"
+                    value={formDetails.name}
+                    onChange={handleInputChange}
                   />
 
                   <input
                     type="text"
                     className="n-inp"
                     placeholder="Enter Company here..."
+                    name="company"
+                    value={formDetails.company}
+                    onChange={handleInputChange}
                   />
 
                   <input
                     type="text"
                     className="n-inp"
                     placeholder="Enter Service here..."
+                    name="service"
+                    value={formDetails.service}
+                    onChange={handleInputChange}
                   />
 
                   <input
                     type="text"
                     className="n-inp"
                     placeholder="Enter Phone Number here..."
+                    name="phoneNo"
+                    value={formDetails.phoneNo}
+                    onChange={handleInputChange}
+                  />
+                  <input
+                    type="text"
+                    className="n-inp"
+                    placeholder="Enter email here..."
+                    name="email"
+                    value={formDetails.email}
+                    onChange={handleInputChange}
                   />
                   <div className="modal-actions">
                     <button
@@ -134,10 +200,16 @@ const VendorList = ({ vendors }) => {
                     >
                       Cancel
                     </button>
-                    <button className="login-submit-button no-space size-less">
+                    <button
+                      className="login-submit-button no-space size-less"
+                      onClick={handleSubmit}
+                    >
                       Save
                     </button>
                   </div>
+                  {errorMessage !== "" && (
+                    <p className="error-message">*{errorMessage}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -148,7 +220,6 @@ const VendorList = ({ vendors }) => {
         <thead>
           <tr>
             <th>No</th>
-            <th>Profile</th>
             <th>Name</th>
             <th>Service</th>
             <th>Company</th>
@@ -159,17 +230,10 @@ const VendorList = ({ vendors }) => {
           {vendors.map((vendor, index) => (
             <tr key={vendor.id}>
               <td>{index + 1}</td>
-              <td>
-                <img
-                  src={`https://randomuser.me/api/portraits/med/men/${vendor.id}.jpg`}
-                  alt="profile"
-                  className="profile-image"
-                />
-              </td>
               <td>{vendor.name}</td>
               <td>{vendor.service}</td>
               <td>{vendor.company}</td>
-              <td>{vendor.phone}</td>
+              <td>{vendor.phoneNo}</td>
             </tr>
           ))}
         </tbody>

@@ -207,3 +207,6 @@
 .close-btn svg {
   color: #333;
 }
+.no-space-right {
+  width: 0 !important;
+}

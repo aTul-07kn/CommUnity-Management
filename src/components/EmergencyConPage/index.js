@@ -5,6 +5,7 @@ import SideNavbar from "../SideNavbar";
 import TopNavbar from "../TopNavbar";
 import SecurityGPage from "../SecurityGPage";
 import { MdModeEdit } from "react-icons/md";
+import Cookies from "js-cookie";
 import "./index.css";
 
 const contacts = [
@@ -26,6 +27,8 @@ const EmergencyContacts = () => {
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+
+  const role = Cookies.get("role");
   return (
     <div className="apartment-container">
       <SideNavbar />
@@ -34,9 +37,12 @@ const EmergencyContacts = () => {
         <div className="apartment-right-main-sec">
           <div className="ap-lst">
             <h3 className="ap-head1">Emergency Contacts</h3>
-            <button className="login-submit-button" onClick={toggleModal}>
-              + Add Contact
-            </button>
+            {role === "ADMIN" && (
+              <button className="login-submit-button" onClick={toggleModal}>
+                + Add Contact
+              </button>
+            )}
+
             {showModal && (
               <div className="modal-overlay" onClick={toggleModal}>
                 <div
@@ -104,9 +110,11 @@ const EmergencyContacts = () => {
                   <td>{contact.name}</td>
                   <td>{contact.service}</td>
                   <td>{contact.phone}</td>
-                  <td>
-                    <MdModeEdit className="em-ic" />
-                  </td>
+                  {role === "ADMIN" && (
+                    <td>
+                      <MdModeEdit className="em-ic" />
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

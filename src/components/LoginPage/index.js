@@ -57,8 +57,13 @@ const LoginPage = () => {
 
         if (residentResponse.ok) {
           const data1 = await residentResponse.json();
+          const newData = {
+            ...data1,
+            id: userRole === "ADMIN" ? data1.id : data1.societyId,
+          };
           console.log(data1);
           setResult(data1);
+          localStorage.setItem("data", JSON.stringify(newData));
           navigate("/posts");
         } else if (residentResponse.status === 404) {
           // User not found in residents table

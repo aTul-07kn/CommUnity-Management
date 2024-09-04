@@ -7,7 +7,6 @@ import "./index.css"; // Import separate CSS for PersonCard
 const PersonCard = ({ name, block, room, phone, email, image }) => {
   return (
     <div className="person-card">
-      <img src={image} alt={name} className="person-image" />
       <div className="person-info">
         <h3 className="person-name">{name}</h3>
         <p className="person-block">{block}</p>

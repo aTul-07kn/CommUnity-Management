@@ -7,32 +7,29 @@ import "./index.css";
 
 class Apartment extends Component {
   state = {
-    selectedBlock: "Block B",
+    selectedBlock: "Block A",
     members: [
       // Sample data. Replace this with actual data or props as needed.
       {
         name: "Arul",
         block: "Block B",
-        room: "B - 101",
+        apartment: "B - 101",
         phone: "7708912031",
         email: "arul123@gmail.com",
-        image: "https://randomuser.me/api/portraits/men/36.jpg",
       },
       {
         name: "Aravind",
         block: "Block B",
-        room: "B - 102",
+        apartment: "B - 102",
         phone: "9909118099",
         email: "aravind198@gmail.com",
-        image: "https://randomuser.me/api/portraits/men/37.jpg",
       },
       {
         name: "Akash",
         block: "Block B",
-        room: "B - 103",
+        apartment: "B - 103",
         phone: "8997077890",
         email: "arunraja0@gmail.com",
-        image: "https://randomuser.me/api/portraits/men/38.jpg",
       },
       {
         name: "Aarav",
@@ -40,7 +37,6 @@ class Apartment extends Component {
         apartment: "A - 101",
         phone: "8987764321",
         email: "aarav123@gmail.com",
-        image: "https://randomuser.me/api/portraits/men/31.jpg",
       },
       {
         name: "Ananya",
@@ -48,15 +44,14 @@ class Apartment extends Component {
         apartment: "A - 102",
         phone: "9876543210",
         email: "ananya567@gmail.com",
-        image: "https://randomuser.me/api/portraits/women/32.jpg",
       },
+
       {
         name: "Amit",
         block: "Block A",
         apartment: "A - 103",
         phone: "8796543210",
         email: "amit789@gmail.com",
-        image: "https://randomuser.me/api/portraits/men/33.jpg",
       },
       {
         name: "Aisha",
@@ -64,7 +59,6 @@ class Apartment extends Component {
         apartment: "A - 104",
         phone: "9988776655",
         email: "aisha890@gmail.com",
-        image: "https://randomuser.me/api/portraits/women/34.jpg",
       },
       // Add more members here
     ],
@@ -100,7 +94,7 @@ class Apartment extends Component {
               Block B
             </button>
           </div>
-          <div className="m-search-sec">
+          {/* <div className="m-search-sec">
             <div className="search-container">
               <input
                 type="text"
@@ -109,7 +103,7 @@ class Apartment extends Component {
               />
               <IoSearch className="ap-search-icon" />
             </div>
-          </div>
+          </div> */}
 
           <div className="members-grid">
             {filteredMembers.map((member, index) => (
@@ -117,10 +111,9 @@ class Apartment extends Component {
                 key={index}
                 name={member.name}
                 block={member.block}
-                room={member.room}
+                room={member.apartment}
                 phone={member.phone}
                 email={member.email}
-                image={member.image}
               />
             ))}
           </div>

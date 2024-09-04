@@ -1,212 +1,233 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import VendorList from "../VendorList";
 import SideNavbar from "../SideNavbar";
 import TopNavbar from "../TopNavbar";
+import Cookies from "js-cookie";
+import { RotatingLines } from "react-loader-spinner";
 import "./index.css";
 
-class RequestsPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      serviceType: "All",
-      vendors: [
-        {
-          id: 1,
-          name: "Prakesh",
-          service: "Water Can",
-          company: "Pure Water Limited",
-          phone: "9022569918",
-        },
-        {
-          id: 2,
-          name: "Nethanel",
-          service: "House Keeping",
-          company: "A to Z Home Needs",
-          phone: "8978243438",
-        },
-        {
-          id: 3,
-          name: "Pavith",
-          service: "House Keeping",
-          company: "A to Z Home Needs",
-          phone: "8978243439",
-        },
-        {
-          id: 4,
-          name: "Kavitha",
-          service: "House Keeping",
-          company: "A to Z Home Needs",
-          phone: "8769265804",
-        },
-        {
-          id: 5,
-          name: "Thudor",
-          service: "Laundry",
-          company: "Wassher Needs",
-          phone: "8798465381",
-        },
-        {
-          id: 6,
-          name: "Namish",
-          service: "Sun Filter",
-          company: "Sun Blaset",
-          phone: "9580912891",
-        },
-        {
-          id: 7,
-          name: "Saraswathi",
-          service: "Fiber Net",
-          company: "Jio Fiber",
-          phone: "9746291263",
-        },
-        {
-          id: 8,
-          name: "Poongodi",
-          service: "Home Keeper",
-          company: "Infinity Cleaning",
-          phone: "9750025870",
-        },
-        {
-          id: 9,
-          name: "Sundaram",
-          service: "AC Service",
-          company: "M.Cool",
-          phone: "9864489301",
-        },
-        {
-          id: 10,
-          name: "Thahir",
-          service: "House Keeping",
-          company: "Infinity Cleaning",
-          phone: "9750025870",
-        },
-        {
-          id: 11,
-          name: "Muhsin",
-          service: "Plumbing",
-          company: "Arun Services",
-          phone: "9098215678",
-        },
-        {
-          id: 12,
-          name: "Vani",
-          service: "Electrician",
-          company: "High Voltage",
-          phone: "9887632122",
-        },
-        {
-          id: 13,
-          name: "Gurun",
-          service: "Fiber Net",
-          company: "SOUL",
-          phone: "9552268850",
-        },
-        {
-          id: 14,
-          name: "Prebu",
-          service: "Daily Milk",
-          company: "Aavin Milk",
-          phone: "9625656788",
-        },
-      ],
-      formDetails: {
-        address: "",
-        phoneNumber: "",
-        additionalNotes: "",
-      },
+const apiStatusConstants = {
+  initial: "INITIAL",
+  success: "SUCCESS",
+  failure: "FAILURE",
+  inProgress: "IN_PROGRESS",
+};
+
+const RequestsPage = () => {
+  const [serviceType, setServiceType] = useState("All");
+  const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial);
+  const [vendors, setVendors] = useState([]);
+  const [formDetails, setFormDetails] = useState({
+    address: "",
+    phoneNumber: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    const uniqueServiceTypes = getUniqueServiceTypes();
+    setServiceType(uniqueServiceTypes[0]);
+  }, []);
+
+  useEffect(() => {
+    const fetchVendors = async () => {
+      setApiStatus(apiStatusConstants.inProgress);
+      const jwtToken = Cookies.get("jwt_token");
+      const data = JSON.parse(localStorage.getItem("data"));
+
+      try {
+        const response = await fetch(
+          `http://localhost:9999/api/community/complaint-service/vendor/getBySociety/${data.id}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`, // Include the JWT token in the header
+            },
+          }
+        );
+
+        if (response.ok) {
+          const vendorsData = await response.json();
+
+          setVendors(vendorsData);
+          const uniqueServiceTypes = getUniqueServiceTypes();
+          setServiceType(uniqueServiceTypes[0]);
+          setApiStatus(apiStatusConstants.success);
+        } else {
+          setApiStatus(apiStatusConstants.failure);
+        }
+      } catch (error) {
+        console.error("Error fetching vendors:", error);
+        setApiStatus(apiStatusConstants.failure);
+      }
     };
-  }
 
-  componentDidMount() {
-    // Set default service type to the first service in the dynamic list
-    const uniqueServiceTypes = this.getUniqueServiceTypes();
-    this.setState({ serviceType: uniqueServiceTypes[0] });
-  }
+    fetchVendors();
+  }, []);
 
-  getUniqueServiceTypes = () => {
-    const { vendors } = this.state;
+  const handleRequest = async () => {
+    setApiStatus(apiStatusConstants.inProgress);
+    const jwtToken = Cookies.get("jwt_token");
+    const data = JSON.parse(localStorage.getItem("data"));
+    const { id, residentId } = data;
+
+    const newRequest = {
+      serviceType: serviceType,
+      address: formDetails.address,
+      phoneNo: formDetails.phoneNumber,
+      description: formDetails.description,
+      societyId: id,
+    };
+
+    const response = await fetch(
+      "http://localhost:9999/api/community/complaint-service/request/create-request",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        body: JSON.stringify(newRequest),
+      }
+    );
+    if (response.ok) {
+      setApiStatus(apiStatusConstants.success);
+      const createdRequest = await response.json();
+      setFormDetails({ address: "", phoneNumber: "", description: "" });
+    } else {
+      setApiStatus(apiStatusConstants.failure);
+      console.error("Failed to create the complaint.");
+      // Handle failure scenario, e.g., show an error message
+    }
+  };
+
+  const getUniqueServiceTypes = () => {
     const serviceTypes = vendors.map((vendor) => vendor.service);
-    return ["All", ...new Set(serviceTypes)]; // Adds "All" option and removes duplicates
+    return ["All", ...new Set(serviceTypes)];
   };
 
-  handleServiceTypeChange = (type) => {
-    this.setState({ serviceType: type });
+  const handleServiceTypeChange = (type) => {
+    setServiceType(type);
   };
 
-  handleInputChange = (e) => {
-    this.setState({
-      formDetails: {
-        ...this.state.formDetails,
-        [e.target.name]: e.target.value,
-      },
+  const handleInputChange = (e) => {
+    setFormDetails({
+      ...formDetails,
+      [e.target.name]: e.target.value,
     });
   };
 
-  render() {
-    const { serviceType, vendors, formDetails } = this.state;
-    const uniqueServiceTypes = this.getUniqueServiceTypes(); // Get unique services dynamically
+  const renderLoadingView = () => (
+    <div className="loader-container">
+      <RotatingLines
+        visible={true}
+        height="96"
+        width="96"
+        color="#1a4258"
+        strokeWidth="5"
+        animationDuration="0.75"
+        ariaLabel="rotating-lines-loading"
+      />
+    </div>
+  );
+
+  const renderFailureView = () => (
+    <div className="error-view-container">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-products-error-view.png"
+        alt="failure"
+        className="failure-img"
+      />
+      <h1 className="failure-heading-text">Oops! Something Went Wrong</h1>
+      <p className="failure-description">
+        We are having some trouble processing your request. Please try again.
+      </p>
+    </div>
+  );
+
+  const renderSuccessView = () => {
+    const role = Cookies.get("role");
+    const uniqueServiceTypes = getUniqueServiceTypes();
     const filteredVendors =
       serviceType === "All"
         ? vendors
         : vendors.filter((vendor) => vendor.service === serviceType);
 
     return (
-      <div className="apartment-container">
-        <SideNavbar />
-        <div className="apartment-right-sec">
-          <TopNavbar heading="Request Services" full={false} />
-          <div className="apartment-right-main-sec">
-            <h2 className="ap-head1">Select Service Type</h2>
-            <div className="service-types">
-              {uniqueServiceTypes.map((type) => (
-                <button
-                  key={type}
-                  className={`round-button ${
-                    serviceType === type ? "active" : ""
-                  }`}
-                  onClick={() => this.handleServiceTypeChange(type)}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-            <div className="service-request-details">
-              <h3 className="ap-head1">Service Request Details</h3>
-              <label className="ap-label">Address</label>
-              <input
-                type="text"
-                placeholder="Enter your Address here"
-                name="address"
-                value={formDetails.address}
-                onChange={this.handleInputChange}
-                className="req-input"
-              />
-              <label className="ap-label">Phone no</label>
-              <input
-                type="text"
-                placeholder="Enter the Phone no"
-                name="phoneNumber"
-                value={formDetails.phoneNumber}
-                onChange={this.handleInputChange}
-                className="req-input"
-              />
-              <label className="ap-label">Additional Notes</label>
-              <textarea
-                placeholder="Any Specific details"
-                name="additionalNotes"
-                value={formDetails.additionalNotes}
-                onChange={this.handleInputChange}
-                rows={4}
-                className="req-input-text"
-              />
-              <button className="login-submit-button">Send Request</button>
-            </div>
-            <VendorList vendors={filteredVendors} />
-          </div>
+      <div className="apartment-right-main-sec">
+        <h2 className="ap-head1">Select Service Type</h2>
+        <div className="service-types">
+          {uniqueServiceTypes.map((type) => (
+            <button
+              key={type}
+              className={`round-button ${serviceType === type ? "active" : ""}`}
+              onClick={() => handleServiceTypeChange(type)}
+            >
+              {type}
+            </button>
+          ))}
         </div>
+        <form className="service-request-details" onSubmit={handleRequest}>
+          <h3 className="ap-head1">Service Request Details</h3>
+          <label className="ap-label">Address</label>
+          <input
+            type="text"
+            placeholder="Enter your Address here"
+            name="address"
+            value={formDetails.address}
+            onChange={handleInputChange}
+            className="req-input"
+            required
+          />
+          <label className="ap-label">Phone no</label>
+          <input
+            type="text"
+            placeholder="Enter the Phone no"
+            name="phoneNumber"
+            value={formDetails.phoneNumber}
+            onChange={handleInputChange}
+            className="req-input"
+            required
+          />
+          <label className="ap-label">Additional Notes</label>
+          <textarea
+            placeholder="Any Specific details"
+            name="description"
+            value={formDetails.description}
+            onChange={handleInputChange}
+            rows={4}
+            className="req-input-text"
+            required
+          />
+          <button className="login-submit-button" type="submit">
+            Send Request
+          </button>
+        </form>
+        <VendorList vendors={filteredVendors} role={role} />
       </div>
     );
-  }
-}
+  };
 
+  const getView = () => {
+    switch (apiStatus) {
+      case apiStatusConstants.inProgress:
+        return renderLoadingView();
+      case apiStatusConstants.success:
+        return renderSuccessView();
+      case apiStatusConstants.failure:
+        return renderFailureView();
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="apartment-container">
+      <SideNavbar />
+      <div className="apartment-right-sec">
+        <TopNavbar heading="Request Services" full={false} />
+        {getView()}
+      </div>
+    </div>
+  );
+};
 export default RequestsPage;

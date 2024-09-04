@@ -11,11 +11,6 @@ function TopNavbar({ heading, full }) {
       <h3 className="n-head">{heading}</h3>
       <Link to="/user-profile" style={{ textDecoration: "none" }}>
         <button className="av-sec">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/abdd184c42e67fb5d925e7701b8a9ea52c401fb586babe92070a58e33e1aca97?placeholderIfAbsent=true&apiKey=c0675f285b7e411a80445cebc7c0b8d3"
-            alt="avatar"
-            className="avathar"
-          />
           <p className="n-text">Swathi</p>
         </button>
       </Link>

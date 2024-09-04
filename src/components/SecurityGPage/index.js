@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
+import Cookies from "js-cookie";
 import "./index.css";
 
 const dummySecurityData = [
@@ -48,6 +49,7 @@ const dummySecurityData = [
 const SecurityGPage = () => {
   const [activeFilter, setActiveFilter] = useState("All");
   const [showModal, setShowModal] = useState(false);
+  const role = Cookies.get("role");
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -79,12 +81,15 @@ const SecurityGPage = () => {
             {filter}
           </button>
         ))}
-        <button
-          className="login-submit-button no-space align-end"
-          onClick={toggleModal}
-        >
-          + Add Security
-        </button>
+        {role === "ADMIN" && (
+          <button
+            className="login-submit-button no-space align-end"
+            onClick={toggleModal}
+          >
+            + Add Security
+          </button>
+        )}
+
         {showModal && (
           <div className="modal-overlay" onClick={toggleModal}>
             <div
