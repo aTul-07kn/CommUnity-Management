@@ -1,0 +1,25 @@
+.red-btn {
+  background-color: tomato;
+  color: white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  height: 40px;
+  width: 150px;
+  border-radius: 10px;
+}
+.billing-sec {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+  gap: 30px;
+}
+
+.full-height {
+  height: 80%;
+}

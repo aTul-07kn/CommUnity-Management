@@ -53,7 +53,7 @@ const menuItems = [
   {
     icon: "https://cdn.builder.io/api/v1/image/assets/TEMP/eae2b4a85957b8e772f0df5f63f2047fd2d3a4b50bcdb91efef49d6f7f70202b?placeholderIfAbsent=true&apiKey=c0675f285b7e411a80445cebc7c0b8d3",
     text: "Billings",
-    path: "/billing",
+    path: "/billings",
   },
 ];
 
