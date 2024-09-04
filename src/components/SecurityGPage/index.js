@@ -63,6 +63,9 @@ const SecurityGPage = () => {
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial);
   const [showModal, setShowModal] = useState(false);
   const role = Cookies.get("role");
+  const [guardName, setGuardName] = useState("");
+  const [block, setBlock] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -105,6 +108,46 @@ const SecurityGPage = () => {
     fetchDetails();
   }, []);
 
+  const handleAddSecurity = async () => {
+    const jwtToken = Cookies.get("jwt_token");
+
+    try {
+      const data = JSON.parse(localStorage.getItem("data"));
+
+      const newSecurity = {
+        securityName: guardName,
+        phoneNo: phoneNumber,
+        blockNo: block,
+        societyId: data.id, // Assuming `societyId` is the societyId
+      };
+
+      const createNoticeResponse = await fetch(
+        "http://localhost:9999/api/community/event-service/notice/create-notice",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+          body: JSON.stringify(newSecurity),
+        }
+      );
+
+      if (createNoticeResponse.ok) {
+        console.log("Notice created successfully");
+        setPhoneNumber("");
+        setBlock("");
+        setGuardName("");
+        toggleModal();
+      } else {
+        setApiStatus(apiStatusConstants.failure);
+      }
+    } catch (error) {
+      setApiStatus(apiStatusConstants.failure);
+      console.error("Error creating notice:", error);
+    }
+  };
+
   const renderFailureView = () => (
     <div className="error-view-container">
       <img
@@ -139,7 +182,7 @@ const SecurityGPage = () => {
     }
     // Convert "Block - A" to "A" and "Block - B" to "B"
     const blockFilter = activeFilter === "Block - A" ? "A" : "B";
-    return securityDetils.filter((data) => data.block === blockFilter);
+    return securityDetils.filter((data) => data.blockNo === blockFilter);
   };
 
   const renderSuccessView = () => {
@@ -186,18 +229,27 @@ const SecurityGPage = () => {
                       type="text"
                       className="n-inp"
                       placeholder="Enter Security Guard Name here..."
+                      value={guardName}
+                      onChange={(e) => setGuardName(e.target.value)}
+                      required
                     />
 
                     <input
                       type="text"
                       className="n-inp"
                       placeholder="Enter the Block here..."
+                      value={block}
+                      onChange={(e) => setBlock(e.target.value)}
+                      required
                     />
 
                     <input
                       type="text"
                       className="n-inp"
                       placeholder="Enter the Phone Number here..."
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      required
                     />
 
                     <div className="modal-actions space-more">
