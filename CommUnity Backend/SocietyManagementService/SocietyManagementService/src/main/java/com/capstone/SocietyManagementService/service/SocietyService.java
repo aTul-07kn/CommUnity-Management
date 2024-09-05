@@ -10,11 +10,9 @@ import com.capstone.SocietyManagementService.dto.societydtos.SocietyResponse;
 import com.capstone.SocietyManagementService.exception.SocietyNotFoundException;
 import com.capstone.SocietyManagementService.feign.EventClient;
 import com.capstone.SocietyManagementService.feign.NoticeClient;
-import com.capstone.SocietyManagementService.model.Flat;
-import com.capstone.SocietyManagementService.model.Resident;
-import com.capstone.SocietyManagementService.model.Role;
-import com.capstone.SocietyManagementService.model.Society;
+import com.capstone.SocietyManagementService.model.*;
 import com.capstone.SocietyManagementService.repository.FlatRepository;
+import com.capstone.SocietyManagementService.repository.ParkingRepository;
 import com.capstone.SocietyManagementService.repository.ResidentRepository;
 import com.capstone.SocietyManagementService.repository.SocietyRepository;
 import jakarta.transaction.Transactional;
@@ -44,6 +42,9 @@ public class SocietyService {
     @Autowired
     private FlatRepository flatRepository;
 
+    @Autowired
+    private ParkingRepository parkingRepository;
+
     //Method to create a new society
     @Transactional
     public SocietyResponse createSociety(SocietyRequest societyRequest) {
@@ -66,9 +67,15 @@ public class SocietyService {
         Flat savedAdminFlat=flatRepository.save(adminFlat);
         adminResident.setFlatNo(savedAdminFlat.getFlatNo());
         adminResident.setFlat(savedAdminFlat);
-
         residentRepository.save(adminResident);
 
+        //save the parking for the ADMIN
+        Parking parking = new Parking();
+        parking.setParkingNo("P-" + savedAdminFlat.getFlatNo());
+        parking.setFlatNo(savedAdminFlat.getFlatNo());
+        parking.setFlat(savedAdminFlat);
+        parking.setSociety(savedSociety);
+        parkingRepository.save(parking);
         return entityToDto(savedSociety);
     }
 

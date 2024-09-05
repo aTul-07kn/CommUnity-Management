@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./index.css";
+import { JsonRequestError } from "@fullcalendar/core/index.js";
 
 const UserSignUpPage = () => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const UserSignUpPage = () => {
     phoneNo: "",
     societyName: "",
     postal: "",
+    flatNo: "",
     email: emailFromState,
   });
   const [errorMessage, setErrorMessage] = useState(null);
@@ -45,7 +47,8 @@ const UserSignUpPage = () => {
       console.log("res", response);
 
       if (response.ok) {
-        navigate("/posts");
+        const jsonData = await response.json();
+        navigate("/login");
         console.log("User registered successfully");
       } else {
         const errorData = await response.json();

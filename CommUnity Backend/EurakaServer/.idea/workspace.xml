@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941ffaa1-062e-4bec-bed3-2c3fbeb27312" name="Changes" comment="" />
+    <list default="true" id="941ffaa1-062e-4bec-bed3-2c3fbeb27312" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../ComplaintRequestService/ComplaintRequestService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../ComplaintRequestService/ComplaintRequestService/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../EventsUpdatesService/EventsUpdatesService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../EventsUpdatesService/EventsUpdatesService/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../PaymentService/PaymentService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../PaymentService/PaymentService/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SocietyManagementService/SocietyManagementService/src/main/java/com/capstone/SocietyManagementService/service/SocietyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SocietyManagementService/SocietyManagementService/src/main/java/com/capstone/SocietyManagementService/service/SocietyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SocietyManagementService/SocietyManagementService/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../SocietyManagementService/SocietyManagementService/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../securityfiles/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../securityfiles/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../securityfiles/target/classes/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../securityfiles/target/classes/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/components/AdminRegisterPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/AdminRegisterPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/components/BillingPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/BillingPage/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../src/components/UserSignUpPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/UserSignUpPage/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

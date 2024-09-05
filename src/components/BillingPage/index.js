@@ -14,7 +14,7 @@ const apiStatusConstants = {
 };
 
 const BillingPage = () => {
-  const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial);
+  const [apiStatus, setApiStatus] = useState(apiStatusConstants.success);
 
   const handlePayment = async () => {
     const jwtToken = Cookies.get("jwt_token");
@@ -44,7 +44,7 @@ const BillingPage = () => {
       console.log(createNoticeResponse);
 
       if (createNoticeResponse.ok) {
-        const paymentLink=await createNoticeResponse.text();
+        const paymentLink = await createNoticeResponse.text();
         console.log(paymentLink);
         console.log("Payment link created successfully");
 

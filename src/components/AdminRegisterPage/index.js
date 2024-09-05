@@ -51,7 +51,9 @@ const AdminRegisterPage = () => {
 
       if (response.ok) {
         console.log("response", response);
-        navigate("/posts");
+
+        navigate("/login");
+
         console.log("User registered successfully");
       } else {
         const errorData = await response.json();

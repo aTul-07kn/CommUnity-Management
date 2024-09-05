@@ -59,7 +59,7 @@ class Footer extends Component {
           </div>
           <div className="phoneWrapper">
             <div className="phoneNumber">
-              <FaPhoneAlt />
+              {/* <FaPhoneAlt /> */}
               <a href="tel:9988776655" className="link">
                 9988776655
               </a>
