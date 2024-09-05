@@ -14,7 +14,7 @@ const apiStatusConstants = {
 };
 
 const BillingPage = () => {
-  const [apiStatus, setApiStatus] = useState(apiStatusConstants.success);
+  const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial);
 
   const handlePayment = async () => {
     const jwtToken = Cookies.get("jwt_token");

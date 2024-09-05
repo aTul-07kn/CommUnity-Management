@@ -10,6 +10,8 @@ import Cookies from "js-cookie";
 import { RotatingLines } from "react-loader-spinner";
 import { HiPlusCircle } from "react-icons/hi2";
 import { MdClose } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./index.css";
 
 const getRandomImage = () => {
@@ -60,6 +62,7 @@ const Events = () => {
   const [editEventDescription, setEditEventDescription] = useState("");
   const [editEventImage, setEditEventImage] = useState(null);
   const [editEventImagePreview, setEditEventImagePreview] = useState(null);
+  const navigate = useNavigate();
 
   const toggleModal = () => {
     setShowModal((prevShowModal) => !prevShowModal);
@@ -211,7 +214,7 @@ const Events = () => {
       );
 
       if (createEventResponse.ok) {
-        console.log("Event created successfully");
+        toast.success("Event created successfully");
         setNewEventName("");
         setNewEventDate("");
         setNewEventDescription("");
@@ -226,6 +229,10 @@ const Events = () => {
       setApiStatus(apiStatusConstants.failure);
       console.error("Error creating event:", error);
     }
+  };
+
+  const feedback = (id) => {
+    navigate(`/feedback/${id}`);
   };
 
   const handleFileChange = (event) => {
@@ -279,8 +286,7 @@ const Events = () => {
 
       console.log(response);
       if (response.ok) {
-        console.log("Event updated successfully");
-        // Clear states and close the modal
+        toast.success("Event updated successfully");
         setEditEventId(null);
         setEditEventName("");
         setEditEventDate("");
@@ -440,6 +446,8 @@ const Events = () => {
                   time={event.time}
                   onEdit={handleEditClick}
                   onDelete={handleDeleteEvent}
+                  giveFeedback={feedback}
+                  type="events"
                 />
               ))}
             </div>

@@ -78,39 +78,41 @@ const Complaints = () => {
   });
 
   const complaintsSummary = calculateComplaintsSummary(complaints);
+  const fetchComplaints = async () => {
+    setApiStatus(apiStatusConstants.inProgress);
+    const jwtToken = Cookies.get("jwt_token");
+    const role = Cookies.get("role");
+    const data = JSON.parse(localStorage.getItem("data"));
+    const { id } = data;
+    const { residentId } = data;
+    const url =
+      role === "ADMIN"
+        ? `http://localhost:9999/api/community/complaint-service/complaints/by-society/${id}`
+        : `http://localhost:9999/api/community/complaint-service/complaints/by-resident/${residentId}`;
 
-  useEffect(() => {
-    const fetchComplaints = async () => {
-      setApiStatus(apiStatusConstants.inProgress);
-      const jwtToken = Cookies.get("jwt_token");
-      const data = JSON.parse(localStorage.getItem("data"));
-      const { id } = data;
+    try {
+      const response = await fetch(url, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      });
 
-      try {
-        const response = await fetch(
-          `http://localhost:9999/api/community/complaint-service/complaints/by-society/${id}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${jwtToken}`, // Include the JWT token in the header
-            },
-          }
-        );
-
-        if (response.ok) {
-          const complaintsData = await response.json();
-          console.log("c", complaintsData);
-          setComplaints(complaintsData);
-          setApiStatus(apiStatusConstants.success);
-        } else {
-          setApiStatus(apiStatusConstants.failure);
-        }
-      } catch (error) {
-        console.error("Error fetching complaints:", error);
+      if (response.ok) {
+        const complaintsData = await response.json();
+        console.log("c", complaintsData);
+        setComplaints(complaintsData);
+        setApiStatus(apiStatusConstants.success);
+      } else {
         setApiStatus(apiStatusConstants.failure);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching complaints:", error);
+      setApiStatus(apiStatusConstants.failure);
+    }
+  };
 
+  useEffect(() => {
     fetchComplaints();
   }, []); // Ensure data.id or other relevant dependencies are included if they change
 
@@ -156,17 +158,15 @@ const Complaints = () => {
       );
 
       if (response.ok) {
-        // Update the local state to reflect the change
-        setComplaints((prevComplaints) =>
-          prevComplaints.map((c) =>
-            c.id === complaint.id ? { ...c, status: "CLOSED" } : c
-          )
-        );
+        setApiStatus(apiStatusConstants.success);
+        await fetchComplaints();
       } else {
         console.error("Failed to close the complaint.");
+        setApiStatus(apiStatusConstants.failure);
       }
     } catch (error) {
       console.error("Error closing complaint:", error);
+      setApiStatus(apiStatusConstants.failure);
     }
   };
 
@@ -262,42 +262,45 @@ const Complaints = () => {
             );
           })}
         </div>
-        <form className="service-request-details" onSubmit={handleSubmit}>
-          <h3 className="ap-head1">Submit Complaint</h3>
-          <label className="ap-label">Name</label>
-          <input
-            type="text"
-            placeholder="Enter your Name here"
-            name="name"
-            value={formDetails.name}
-            onChange={handleInputChange}
-            className="req-input"
-            required
-          />
-          <label className="ap-label">Title</label>
-          <input
-            type="text"
-            placeholder="Enter the title here..."
-            name="title"
-            value={formDetails.title}
-            onChange={handleInputChange}
-            className="req-input"
-            required
-          />
-          <label className="ap-label">Description</label>
-          <textarea
-            placeholder="Any Specific details"
-            name="description"
-            value={formDetails.description}
-            onChange={handleInputChange}
-            rows={4}
-            className="req-input-text"
-            required
-          />
-          <button className="login-submit-button" type="submit">
-            Sumbit
-          </button>
-        </form>
+        {role === "RESIDENT" && (
+          <form className="service-request-details" onSubmit={handleSubmit}>
+            <h3 className="ap-head1">Submit Complaint</h3>
+            <label className="ap-label">Name</label>
+            <input
+              type="text"
+              placeholder="Enter your Name here"
+              name="name"
+              value={formDetails.name}
+              onChange={handleInputChange}
+              className="req-input"
+              required
+            />
+            <label className="ap-label">Title</label>
+            <input
+              type="text"
+              placeholder="Enter the title here..."
+              name="title"
+              value={formDetails.title}
+              onChange={handleInputChange}
+              className="req-input"
+              required
+            />
+            <label className="ap-label">Description</label>
+            <textarea
+              placeholder="Any Specific details"
+              name="description"
+              value={formDetails.description}
+              onChange={handleInputChange}
+              rows={4}
+              className="req-input-text"
+              required
+            />
+            <button className="login-submit-button" type="submit">
+              Sumbit
+            </button>
+          </form>
+        )}
+
         <div className="complaints-filter">
           {["All", "Open", "Closed"].map((filter) => (
             <button
@@ -353,6 +356,7 @@ const Complaints = () => {
                           onClick={() => handleCloseComplaint(complaint)}
                           className="hover-eff"
                           style={{}}
+                          disabled={complaint.status === "CLOSED"}
                         >
                           Close
                         </button>

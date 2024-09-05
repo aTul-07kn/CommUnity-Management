@@ -36,6 +36,7 @@
   flex-direction: column;
   gap: 10px;
   margin-bottom: 30px;
+  position: relative;
 }
 
 .service-request-details textarea {
@@ -136,4 +137,15 @@
   justify-content: center;
   align-items: center;
   height: 80vh;
+}
+.req-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90%;
+}
+.image-r {
+  height: 200px;
+  width: 300px;
+  margin-top: 40px;
 }
