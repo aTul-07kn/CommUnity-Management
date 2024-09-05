@@ -25,7 +25,7 @@ public class ResidentController {
     }
 
     // Endpoint to get all residents
-    @GetMapping()
+    @GetMapping("/getAll")
     public ResponseEntity<List<ResidentResponse>> getAllResidents() {
         List<ResidentResponse> residents = residentService.getAllResidents();
         return ResponseEntity.ok(residents);

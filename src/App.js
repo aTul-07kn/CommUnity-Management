@@ -42,7 +42,7 @@ function App() {
           <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/events" element={<Events />} />
           <Route path="/billings" element={<BillingPage />} />
-        </Route>
+        </Route>  
 
         {/* Redirect to home for unknown routes */}
         <Route path="*" element={<Navigate to="/" />} />

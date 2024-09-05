@@ -24,8 +24,10 @@ const BillingPage = () => {
 
       const newPayment = {
         amount: 3500,
-        description: `maintenance_bill_for_${data.flatNo}`,
+        description: `Maintenance bill for flat ${data.flatNo}`,
         email: data.email,
+        name: data.name,
+        phoneNo: data.phoneNo,
       };
 
       const createNoticeResponse = await fetch(
@@ -42,7 +44,12 @@ const BillingPage = () => {
       console.log(createNoticeResponse);
 
       if (createNoticeResponse.ok) {
-        console.log("Notice created successfully");
+        const paymentLink=await createNoticeResponse.text();
+        console.log(paymentLink);
+        console.log("Payment link created successfully");
+
+        // Redirect to the payment link
+        window.location.href = paymentLink;
       } else {
         setApiStatus(apiStatusConstants.failure);
       }

@@ -35,8 +35,8 @@ public class SecurityConfiguration{
                 .csrf(csrf -> csrf.disable())
                 .cors().and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll() // Allowing requests to /auth/**
-                       .requestMatchers("/admin/**").hasRole("ADMIN") // Only ADMIN can access /admin/**
+                        .requestMatchers("/auth/**", "/api/community/management-service/residents/getAll").permitAll() // Allowing requests to /auth/**
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // Only ADMIN can access /admin/**
                         // Only USER can access /user/**
                         .anyRequest().authenticated() // Securing all other endpoints
                 )

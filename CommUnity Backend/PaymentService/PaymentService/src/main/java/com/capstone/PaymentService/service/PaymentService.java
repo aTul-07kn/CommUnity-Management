@@ -52,9 +52,8 @@ public class PaymentService {
     }
 
     public RazorpayResponse createPaymentLink(PaymentRequest paymentRequest) {
-        ResidentResponse usr = residentServiceClient.getResidentByEmail(paymentRequest.getEmail());
-        String phoneNumber = usr.getPhoneNo();
-        String name = usr.getName();
+        String phoneNumber = paymentRequest.getPhoneNo();
+        String name = paymentRequest.getName();
         RazorpayRequest request = new RazorpayRequest();
         request.setAmount(paymentRequest.getAmount()*100);
         request.setExpire_by(Instant.now().getEpochSecond() + 45 * 60); // Expiry time is 45 minutes from now
