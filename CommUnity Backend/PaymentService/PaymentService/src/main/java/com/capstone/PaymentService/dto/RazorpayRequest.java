@@ -19,7 +19,7 @@ public class RazorpayRequest {
     private Customer customer;
     private Notify notify = new Notify(true, true);
     private boolean reminder_enable = true;
-    private String callback_url = "https://localhost:3000/success";
+    private String callback_url = "https://localhost:3000/billings";
     private String callback_method = "get";
 
     // Getters and Setters
