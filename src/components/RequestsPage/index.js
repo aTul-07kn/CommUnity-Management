@@ -4,6 +4,7 @@ import SideNavbar from "../SideNavbar";
 import TopNavbar from "../TopNavbar";
 import Cookies from "js-cookie";
 import { RotatingLines } from "react-loader-spinner";
+import { toast } from "react-toastify";
 import "./index.css";
 
 const apiStatusConstants = {
@@ -14,7 +15,7 @@ const apiStatusConstants = {
 };
 
 const RequestsPage = () => {
-  const [serviceType, setServiceType] = useState("All");
+  const [serviceType, setServiceType] = useState(""); // Initially empty, will be set dynamically
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial);
   const [vendors, setVendors] = useState([]);
   const [formDetails, setFormDetails] = useState({
@@ -22,11 +23,6 @@ const RequestsPage = () => {
     phoneNumber: "",
     description: "",
   });
-
-  useEffect(() => {
-    const uniqueServiceTypes = getUniqueServiceTypes();
-    setServiceType(uniqueServiceTypes[0]);
-  }, []);
 
   useEffect(() => {
     const fetchVendors = async () => {
@@ -47,10 +43,15 @@ const RequestsPage = () => {
 
         if (response.ok) {
           const vendorsData = await response.json();
-
           setVendors(vendorsData);
-          const uniqueServiceTypes = getUniqueServiceTypes();
-          setServiceType(uniqueServiceTypes[0]);
+
+          const uniqueServiceTypes = getUniqueServiceTypes(vendorsData);
+
+          // Set the first serviceType dynamically
+          if (uniqueServiceTypes.length > 0) {
+            setServiceType(uniqueServiceTypes[0]);
+          }
+
           setApiStatus(apiStatusConstants.success);
         } else {
           setApiStatus(apiStatusConstants.failure);
@@ -64,7 +65,8 @@ const RequestsPage = () => {
     fetchVendors();
   }, []);
 
-  const handleRequest = async () => {
+  const handleRequest = async (e) => {
+    e.preventDefault();
     setApiStatus(apiStatusConstants.inProgress);
     const jwtToken = Cookies.get("jwt_token");
     const data = JSON.parse(localStorage.getItem("data"));
@@ -91,18 +93,17 @@ const RequestsPage = () => {
     );
     if (response.ok) {
       setApiStatus(apiStatusConstants.success);
-      const createdRequest = await response.json();
       setFormDetails({ address: "", phoneNumber: "", description: "" });
+      toast.success("Request sent successfully!");
     } else {
       setApiStatus(apiStatusConstants.failure);
       console.error("Failed to create the complaint.");
-      // Handle failure scenario, e.g., show an error message
     }
   };
 
-  const getUniqueServiceTypes = () => {
-    const serviceTypes = vendors.map((vendor) => vendor.service);
-    return ["All", ...new Set(serviceTypes)];
+  const getUniqueServiceTypes = (vendorsList) => {
+    const serviceTypes = vendorsList.map((vendor) => vendor.service);
+    return [...new Set(serviceTypes)];
   };
 
   const handleServiceTypeChange = (type) => {
@@ -146,11 +147,10 @@ const RequestsPage = () => {
 
   const renderSuccessView = () => {
     const role = Cookies.get("role");
-    const uniqueServiceTypes = getUniqueServiceTypes();
-    const filteredVendors =
-      serviceType === "All"
-        ? vendors
-        : vendors.filter((vendor) => vendor.service === serviceType);
+    const uniqueServiceTypes = getUniqueServiceTypes(vendors);
+    const filteredVendors = vendors.filter(
+      (vendor) => vendor.service === serviceType
+    );
 
     return (
       <div className="apartment-right-main-sec">
@@ -166,42 +166,50 @@ const RequestsPage = () => {
             </button>
           ))}
         </div>
-        <form className="service-request-details" onSubmit={handleRequest}>
-          <h3 className="ap-head1">Service Request Details</h3>
-          <label className="ap-label">Address</label>
-          <input
-            type="text"
-            placeholder="Enter your Address here"
-            name="address"
-            value={formDetails.address}
-            onChange={handleInputChange}
-            className="req-input"
-            required
+        <div className="req-row">
+          <form className="service-request-details" onSubmit={handleRequest}>
+            <h3 className="ap-head1">Service Request Details</h3>
+            <label className="ap-label">Address</label>
+            <input
+              type="text"
+              placeholder="Enter your Address here"
+              name="address"
+              value={formDetails.address}
+              onChange={handleInputChange}
+              className="req-input"
+              required
+            />
+            <label className="ap-label">Phone no</label>
+            <input
+              type="text"
+              placeholder="Enter the Phone no"
+              name="phoneNumber"
+              value={formDetails.phoneNumber}
+              onChange={handleInputChange}
+              className="req-input"
+              required
+            />
+            <label className="ap-label">Additional Notes</label>
+            <textarea
+              placeholder="Any Specific details"
+              name="description"
+              value={formDetails.description}
+              onChange={handleInputChange}
+              rows={4}
+              className="req-input-text"
+              required
+            />
+            <button className="login-submit-button" type="submit">
+              Send Request
+            </button>
+          </form>
+          <img
+            src="https://res.cloudinary.com/digbzwlfx/image/upload/v1725501475/alison_courseware_intro_1221_zlh2kv.jpg"
+            alt="request"
+            className="image-r"
           />
-          <label className="ap-label">Phone no</label>
-          <input
-            type="text"
-            placeholder="Enter the Phone no"
-            name="phoneNumber"
-            value={formDetails.phoneNumber}
-            onChange={handleInputChange}
-            className="req-input"
-            required
-          />
-          <label className="ap-label">Additional Notes</label>
-          <textarea
-            placeholder="Any Specific details"
-            name="description"
-            value={formDetails.description}
-            onChange={handleInputChange}
-            rows={4}
-            className="req-input-text"
-            required
-          />
-          <button className="login-submit-button" type="submit">
-            Send Request
-          </button>
-        </form>
+        </div>
+
         <VendorList vendors={filteredVendors} role={role} />
       </div>
     );
@@ -230,4 +238,5 @@ const RequestsPage = () => {
     </div>
   );
 };
+
 export default RequestsPage;

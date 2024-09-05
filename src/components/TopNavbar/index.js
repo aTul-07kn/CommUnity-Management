@@ -6,12 +6,19 @@ import { HiOutlineLogout } from "react-icons/hi";
 import "./index.css";
 
 function TopNavbar({ heading, full }) {
+  const data = JSON.parse(localStorage.getItem("data"));
+  const { name } = data;
   return (
     <nav className="top-nav-bar-container">
       <h3 className="n-head">{heading}</h3>
       <Link to="/user-profile" style={{ textDecoration: "none" }}>
         <button className="av-sec">
-          <p className="n-text">Swathi</p>
+          <img
+            src="https://res.cloudinary.com/digbzwlfx/image/upload/v1725489848/profile_sjcrjn.png"
+            alt="profile"
+            className="avathar"
+          />
+          <p className="n-text">{name}</p>
         </button>
       </Link>
       <Link to="/apartment">
@@ -25,10 +32,9 @@ function TopNavbar({ heading, full }) {
           }}
         />
       </Link>
-      <IoNotifications className="t-icon" />
 
       {full && (
-        <Link to="/posts">
+        <Link to="/request">
           <HiOutlineLogout className="t-icon" />
         </Link>
       )}

@@ -122,7 +122,7 @@ const SecurityGPage = () => {
       };
 
       const createNoticeResponse = await fetch(
-        "http://localhost:9999/api/community/event-service/notice/create-notice",
+        "http://localhost:9999/api/community/management-service/security-details",
         {
           method: "POST",
           headers: {
@@ -186,6 +186,7 @@ const SecurityGPage = () => {
   };
 
   const renderSuccessView = () => {
+  
     const filteredSecurityData = filterSecurityData();
     console.log("f", filteredSecurityData);
 
@@ -259,7 +260,10 @@ const SecurityGPage = () => {
                       >
                         Cancel
                       </button>
-                      <button className="login-submit-button no-space size-less">
+                      <button
+                        className="login-submit-button no-space size-less"
+                        onClick={handleAddSecurity}
+                      >
                         Save
                       </button>
                     </div>

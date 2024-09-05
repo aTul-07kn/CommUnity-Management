@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom"; // Removed Link import
 import "./index.css";
 import SideMenuItem from "../SideMenuItem";
+import Cookies from "js-cookie";
 
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
@@ -67,6 +68,13 @@ const SideNavbar = () => {
     setClickedLogout(true);
   };
 
+  const logout = () => {
+    Cookies.remove("jwt_token");
+    Cookies.remove("role");
+    localStorage.removeItem("data");
+    navigate("/");
+  };
+
   // Update active item when path changes
   useEffect(() => {
     setActiveItem(location.pathname);
@@ -124,7 +132,7 @@ const SideNavbar = () => {
                 <button
                   className="login-submit-button no-space size-less"
                   onClick={() => {
-                    // logout();
+                    logout();
                     close();
                     console.log("modal closed ");
                   }}

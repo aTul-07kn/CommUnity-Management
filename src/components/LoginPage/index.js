@@ -64,7 +64,7 @@ const LoginPage = () => {
           console.log(data1);
           setResult(data1);
           localStorage.setItem("data", JSON.stringify(newData));
-          navigate("/posts");
+          navigate("/request");
         } else if (residentResponse.status === 404) {
           // User not found in residents table
           if (userRole === "ADMIN") {

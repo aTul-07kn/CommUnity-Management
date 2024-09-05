@@ -5,7 +5,7 @@ import { MdEdit, MdDelete, MdDateRange } from "react-icons/md";
 import { IoTimerSharp } from "react-icons/io5";
 import { FaThumbsUp } from "react-icons/fa6";
 import { FaRegThumbsUp } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { MdFeedback } from "react-icons/md";
 import Cookies from "js-cookie";
 
 import Popup from "reactjs-popup";
@@ -23,10 +23,10 @@ const Card = ({
   image,
   onDelete,
   onEdit,
+  giveFeedback,
 }) => {
-  
-
   const role = Cookies.get("role");
+
   return (
     <div className="notice-card">
       <img src={image} alt={title} className="notice-image" />
@@ -41,9 +41,16 @@ const Card = ({
       </div>
       <div
         className={`notice-actions ${
-          role === "ADMIN" ? "admin-class" : "no-space-right"
+          role === "ADMIN"
+            ? "admin-class"
+            : role === "RESIDENT" && type === "events"
+            ? "notice-actions"
+            : "no-space-right"
         }`}
-        style={{ right: type === "posts" ? "150px" : "20px" }}
+        style={{
+          right: type === "posts" ? "150px" : "20px",
+          width: type === "posts" ? "60px" : "",
+        }}
       >
         {type === "posts" && (
           <span className="interested-text">
@@ -52,6 +59,11 @@ const Card = ({
               style={{ color: "#1A4258", height: "20px", width: "20px" }}
             />
           </span>
+        )}
+        {type === "events" && role === "RESIDENT" && (
+          <button className="edit-btn" onClick={() => giveFeedback(id)}>
+            <MdFeedback style={{ color: "white" }} />
+          </button>
         )}
         {role === "ADMIN" && (
           <button className="edit-btn" onClick={() => onEdit(id)}>

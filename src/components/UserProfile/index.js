@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.css";
 import TopNavbar from "../TopNavbar";
+import Cookies from "js-cookie";
 
 const userDetails = [
   {
@@ -14,18 +15,23 @@ const userDetails = [
 
 const UserProfile = () => {
   const data = JSON.parse(localStorage.getItem("data"));
-  const block = data.flatNo[0];
+  const role = Cookies.get("role");
+  const block = role === "ADMIN" ? "ADMIN-FLT" : data.flatNo[0];
   const { name, email, phoneNo, flatNo, societyName } = data;
 
   return (
     <div className="user-container">
-      <TopNavbar heading="User Profile" full={true} />
+      <TopNavbar
+        heading={role === "ADMIN" ? "Admin Profile" : "User Profile"}
+        full={true}
+      />
       <div className="user-main-sec">
         <div className="profile-card">
           <div className="profile-left">
             <div className="u-name-sec">
               <h2 className="i-name-head">{name}</h2>
-              <p>Flat - {flatNo}</p>
+              {role === "ADMIN" && <p>Flat - N/A</p>}
+              {role === "RESIDENT" && <p>Flat - {flatNo}</p>}
             </div>
           </div>
           <div className="profile-right">
@@ -48,7 +54,7 @@ const UserProfile = () => {
               </div>
               <div className="p-menu-each-item">
                 <h4 className="p-m-head">Flat No</h4>
-                <p className="p-m-text">{flatNo}</p>
+                <p className="p-m-text">{role === "ADMIN" ? "N/A" : flatNo}</p>
               </div>
             </div>
             <div className="p-menu-item">
