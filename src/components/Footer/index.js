@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { FaPhoneAlt } from "react-icons/fa";
 import "./index.css";
 
 const socialIcons = [
@@ -58,6 +59,7 @@ class Footer extends Component {
           </div>
           <div className="phoneWrapper">
             <div className="phoneNumber">
+              <FaPhoneAlt />
               <a href="tel:9988776655" className="link">
                 9988776655
               </a>

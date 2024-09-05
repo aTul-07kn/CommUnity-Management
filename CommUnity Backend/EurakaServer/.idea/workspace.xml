@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="941ffaa1-062e-4bec-bed3-2c3fbeb27312" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/BillingPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/BillingPage/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/Card/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/Card/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/Complaints/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/Complaints/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/EmergencyConPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/EmergencyConPage/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/Events/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/Events/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/LoginPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/LoginPage/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/RequestsPage/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/RequestsPage/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/RequestsPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/RequestsPage/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/SecurityGPage/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/SecurityGPage/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/SideNavbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/SideNavbar/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/TopNavbar/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/TopNavbar/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/TopNavbar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/TopNavbar/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../src/components/UserProfile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../src/components/UserProfile/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="941ffaa1-062e-4bec-bed3-2c3fbeb27312" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
