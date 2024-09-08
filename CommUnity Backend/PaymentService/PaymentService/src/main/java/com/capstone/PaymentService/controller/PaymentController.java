@@ -31,4 +31,9 @@ public class PaymentController {
     public ResponseEntity<Payment> findPaymentByFlatNo(@PathVariable("flatNo") String flatNo, @PathVariable("societyId") long societyId){
         return ResponseEntity.ok(paymentService.findPaymentByFlatNoSociety(flatNo, societyId));
     }
+
+    @PutMapping("/update/{flatNo}/{societyId}")
+    public ResponseEntity<String> updatePayment(@PathVariable("flatNo") String flatNo, @PathVariable("societyId") long societyId){
+        return ResponseEntity.ok(paymentService.updatePaymentStatus(flatNo, societyId));
+    }
 }

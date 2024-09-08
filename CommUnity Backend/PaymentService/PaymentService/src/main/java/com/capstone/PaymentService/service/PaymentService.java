@@ -2,10 +2,7 @@ package com.capstone.PaymentService.service;
 
 import com.capstone.PaymentService.client.RazorpayClient;
 import com.capstone.PaymentService.client.ResidentServiceClient;
-import com.capstone.PaymentService.dto.PaymentRequest;
-import com.capstone.PaymentService.dto.RazorpayRequest;
-import com.capstone.PaymentService.dto.RazorpayResponse;
-import com.capstone.PaymentService.dto.ResidentResponse;
+import com.capstone.PaymentService.dto.*;
 import com.capstone.PaymentService.model.Payment;
 import com.capstone.PaymentService.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +35,11 @@ public class PaymentService {
 
         for (ResidentResponse resident : residents) {
             // If the flat number is already processed, skip creating a new payment
-            if (!uniqueFlatNos.contains(resident.getFlatNo())) {
+            if (!uniqueFlatNos.contains(resident.getFlatNo()) && resident.getRole()!= Role.ADMIN) {
                 Payment payment = new Payment();
                 payment.setFlatNo(resident.getFlatNo()); // Use the flat number to uniquely track payments
                 payment.setSocietyId(resident.getSocietyId());
-                payment.setAmount(2500.00); // Monthly maintenance amount
+                payment.setAmount(3500.00); // Monthly maintenance amount
                 payment.setStatus("PENDING");
                 payment.setPaymentDate(null); // Will be set when the payment is made
                 paymentRepository.save(payment);
@@ -75,12 +72,13 @@ public class PaymentService {
         return "REF" + System.currentTimeMillis();
     }
 
-    public void updatePaymentStatus(String flatNo, Long societyId) {
+    public String updatePaymentStatus(String flatNo, Long societyId) {
         Payment payment = paymentRepository.findByFlatNoAndSocietyIdAndStatus(flatNo, societyId, "PENDING")
                 .orElseThrow(() -> new RuntimeException("Payment not found or already paid"));
         payment.setStatus("PAID");
         payment.setPaymentDate(LocalDateTime.now());  // Log the actual payment date
         paymentRepository.save(payment);
+        return "Payment status of "+ flatNo +" updated successfully";
     }
 
     //for the ADMIN
@@ -90,7 +88,6 @@ public class PaymentService {
 
     //for the RESIDENTS
     public Payment findPaymentByFlatNoSociety(String flatNo, long societyId){
-        return paymentRepository.findByFlatNoAndSocietyId(flatNo, societyId);
+        return paymentRepository.findByFlatNoAndSocietyIdAndStatus(flatNo, societyId, "PENDING");
     }
-
 }

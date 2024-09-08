@@ -11,6 +11,7 @@ public class BillScheduler {
     private PaymentService paymentService;
 
     @Scheduled(cron = "0 0 0 1 * ?") // Every 1st of the month at midnight
+//    @Scheduled(cron = "0 0/2 * * * ?")
     public void resetPaymentStatus() {
         paymentService.setAllFlatsPending();
     }

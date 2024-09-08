@@ -3,8 +3,8 @@ import SideNavbar from "../SideNavbar";
 import TopNavbar from "../TopNavbar";
 import Cookies from "js-cookie";
 import { RotatingLines } from "react-loader-spinner";
-import { MdImportExport } from "react-icons/md";
 import "./index.css";
+import {useLocation} from 'react-router-dom';
 
 const apiStatusConstants = {
   initial: "INITIAL",
@@ -15,6 +15,107 @@ const apiStatusConstants = {
 
 const BillingPage = () => {
   const [apiStatus, setApiStatus] = useState(apiStatusConstants.success);
+  const [paymentStatus, setPaymentStatus] = useState('pending');
+  const location = useLocation();
+  const [payments, setPayments] = useState([]);  // list to store all the payments of a particular society
+  const data = JSON.parse(localStorage.getItem("data")); //accessing data from the local storage
+
+  // fetching the payment status of a particular society
+  const fetchPaymentsBySociety = async () => {
+    const jwtToken = Cookies.get('jwt_token');
+
+    try {
+      const response = await fetch(`http://localhost:9999/api/community/payment/by-society/${data.societyId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${jwtToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const paymentsData = await response.json();
+        setPayments(paymentsData);
+      } else {
+        setApiStatus('failure');
+      }
+    } catch (error) {
+      console.error('Error fetching payments:', error);
+      setApiStatus('failure');
+    }
+  };
+
+
+  // fetching the payment status of a particular flat
+  const fetchPaymentStatus = async () => {
+    const jwtToken = Cookies.get("jwt_token");
+    // const data = JSON.parse(localStorage.getItem("data")); //accessing data from the local storage
+
+    try {
+      const response = await fetch(
+        `http://localhost:9999/api/community/payment/${data.flatNo}/${data.societyId}`,
+        {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${jwtToken}`
+          }
+        }
+      );
+
+      if (response.ok) {
+        const paymentData = await response.json();
+        setPaymentStatus(paymentData.status);
+      } else {
+        setApiStatus(apiStatusConstants.failure);
+      }
+    } catch (error) {
+      console.error("Error fetching payment status:", error);
+      setApiStatus(apiStatusConstants.failure);
+    }
+  };
+
+  const updatePaymentStatus = async () => {
+    const jwtToken = Cookies.get("jwt_token");
+    // const data = JSON.parse(localStorage.getItem("data")); //accessing data from the local storage
+
+    try {
+      const updateResponse = await fetch(
+        `http://localhost:9999/api/community/payment/update/${data.flatNo}/${data.societyId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${jwtToken}`,
+          },
+        }
+      );
+
+      if (updateResponse.ok) {
+        console.log("Payment status updated to PAID for "+ data.flatNo);
+        setPaymentStatus('PAID');
+      } else {
+        console.error("Failed to update payment status for "+ data.flatNo);
+      }
+    } catch (error) {
+      console.error("Error updating payment status:", error);
+    }
+  };
+
+  
+  // Fetch the payment when the component loads
+  useEffect(() => {
+    data.role ==='RESIDENT' ? fetchPaymentStatus() : fetchPaymentsBySociety();
+  }, []);
+
+
+  // Add the useEffect hook to check the payment status from the URL
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const paidParam = queryParams.get('razorpay_payment_link_status');
+    if(paidParam=='paid'){
+      updatePaymentStatus();
+    }
+
+  }, [location]);
 
   const handlePayment = async () => {
     const jwtToken = Cookies.get("jwt_token");
@@ -30,7 +131,7 @@ const BillingPage = () => {
         phoneNo: data.phoneNo,
       };
 
-      const createNoticeResponse = await fetch(
+      const createPaymentResponse = await fetch(
         "http://localhost:9999/api/community/payment/create",
         {
           method: "POST",
@@ -41,15 +142,18 @@ const BillingPage = () => {
           body: JSON.stringify(newPayment),
         }
       );
-      console.log(createNoticeResponse);
+      console.log(createPaymentResponse);
 
-      if (createNoticeResponse.ok) {
-        const paymentLink = await createNoticeResponse.text();
+      if (createPaymentResponse.ok) {
+        const paymentLink = await createPaymentResponse.text();
         console.log(paymentLink);
         console.log("Payment link created successfully");
 
         // Redirect to the payment link
         window.location.href = paymentLink;
+        if(paymentStatus==="paid"){
+          console.log("payment paid");
+        }
       } else {
         setApiStatus(apiStatusConstants.failure);
       }
@@ -93,9 +197,23 @@ const BillingPage = () => {
       <div className="apartment-right-main-sec full-height">
         <div className="billing-sec">
           <h1 className="ap-head1">Monthly Maintenance Bill: 3500/-</h1>
-          <button className="red-btn" onClick={handlePayment}>
-            Pay Money
-          </button>
+          {paymentStatus === "PAID" ? (
+            <button
+              className="red-btn"
+              style={{
+                backgroundColor: "lightgrey",
+                color: "darkgrey",
+                border: "2px solid darkgrey"
+              }}
+              disabled
+            >
+              Payment Completed
+            </button>
+          ) : (
+            <button className="red-btn" onClick={handlePayment}>
+              Pay Now
+            </button>
+          )}
         </div>
       </div>
     );
