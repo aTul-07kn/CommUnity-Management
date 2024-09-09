@@ -11,5 +11,5 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
     List<Payment> findAllBySocietyId(long societyId);
 
-    Payment findByFlatNoAndSocietyId(String flatNo, long societyId);
+    Payment findByFlatNoAndSocietyIdAndStatus(String flatNo, long societyId, String status);
 }

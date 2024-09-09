@@ -18,7 +18,3 @@ public class ResidentResponse {
     private long societyId;
     private Role role;
 }
-enum Role {
-    RESIDENT,
-    ADMIN
-}
