@@ -5,13 +5,14 @@
   transition: transform 0.3s;
   margin-right: 30px;
   margin-bottom: 30px;
-  width: 200px;
+  width: 240px;
   height: 220px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  font-family: Poppins;
 }
 
 .person-card:hover {
@@ -28,6 +29,7 @@
 
 .person-info {
   text-align: left;
+  padding-left: 10px;
 }
 
 .person-name {
@@ -42,7 +44,7 @@
 .person-room,
 .person-phone,
 .person-email {
-  margin: 5px 0;
+  margin: 10px 0;
   color: rgba(0, 0, 0, 0.7);
   font-size: 14px;
   font-family: Poppins;

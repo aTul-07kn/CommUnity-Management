@@ -20,6 +20,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import SignUp from "./components/NewSignUp";
 import BillingPage from "./components/BillingPage";
 import FeedbackPage from "./components/FeedbackPage";
+import Dashboard from "./components/Dashboard";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route path="/user-signup" element={<SignUp />} />
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin-register" element={<AdminRegisterPage />} />
           <Route path="/user-register" element={<UserSignUpPage />} />
           <Route path="/apartment" element={<Apartment />} />

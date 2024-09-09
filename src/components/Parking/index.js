@@ -87,8 +87,11 @@ const Parking = () => {
 
       if (response.ok) {
         const fetchedData = await response.json();
+        const filteredData = fetchedData.filter(
+          (each) => !each.parkingNo.startsWith("P-ADMIN")
+        );
 
-        setParkingData(fetchedData); // Set the fetched data here
+        setParkingData(filteredData); // Set the fetched data here
 
         setApiStatus(apiStatusConstants.success);
       } else {

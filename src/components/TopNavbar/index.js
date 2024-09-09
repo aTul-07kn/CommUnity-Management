@@ -34,7 +34,7 @@ function TopNavbar({ heading, full }) {
       </Link>
 
       {full && (
-        <Link to="/request">
+        <Link to="/dashboard">
           <HiOutlineLogout className="t-icon" />
         </Link>
       )}
