@@ -15,11 +15,42 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  height: 100%;
   gap: 30px;
 }
 
 .full-height {
   height: 80%;
+}
+
+/* Styles for the "Pay Now" button when payment is pending */
+.pending-btn {
+  background-color: #f39c12; /* Orange color */
+  color: white;
+  border: 2px solid #f39c12;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.pending-btn:hover {
+  background-color: #e67e22; /* Darker orange */
+}
+
+/* Styles for the "Payment Completed" button */
+.paid-btn {
+  background-color: lightgrey;
+  color: darkgrey;
+  border: 2px solid darkgrey;
+  cursor: not-allowed;
+  padding: 10px 20px;
+}
+
+/* Styling the payment status column for admin view */
+.paid-status {
+  color: green;
+  font-weight: 500;
+}
+
+.pending-status {
+  color: red;
+  font-weight: 500;
 }
